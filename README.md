@@ -130,9 +130,3 @@ To ensure all functions and scripts work properly, install the following package
    ```bash
    stow --target=$HOME/.config dot_config
    ```
-
-3. **Wallpaper Setup**:
-   Place your wallpaper image at:
-   ```bash
-   ~/Pictures/wallpapers/labyrinth.jpg
-   ```
