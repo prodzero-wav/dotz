@@ -225,7 +225,7 @@ fi
 TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 BACKUP_DIR="${CUSTOM_BACKUP_DIR:-$HOME/.config/labyrinth_backup_$TIMESTAMP}"
 CONFIG_TARGET_DIR="$HOME/.config"
-CONFIGS_TO_DEPLOY=(foot mako sway swaylock waybar)
+CONFIGS_TO_DEPLOY=(fastfetch foot fuzzel mako sway swaylock waybar)
 NEEDS_BACKUP=false
 
 for cfg in "${CONFIGS_TO_DEPLOY[@]}"; do
@@ -308,10 +308,23 @@ if [[ -d "$WALLPAPER_SRC" ]]; then
   info "Deploying wallpapers to $WALLPAPER_DEST..."
   if [[ "$DRY_RUN" == true ]]; then
     info "[DRY-RUN] Would copy $WALLPAPER_SRC to $WALLPAPER_DEST"
+    info "[DRY-RUN] Would apply wallpaper via swaymsg if Sway session is running"
   else
     mkdir -p "$WALLPAPER_DEST"
     cp -r "$WALLPAPER_SRC"/* "$WALLPAPER_DEST/"
     success "Wallpapers deployed."
+
+    # Automatically set/apply wallpaper if running active Sway session
+    if command -v swaymsg &>/dev/null && swaymsg -t get_version &>/dev/null; then
+      info "Applying wallpaper to active Sway session..."
+      if swaymsg "output * bg $WALLPAPER_DEST/labyrinth.jpg fill" &>/dev/null; then
+        success "Wallpaper applied successfully."
+      else
+        warn "Could not apply wallpaper automatically via swaymsg."
+      fi
+    else
+      info "No active Sway session detected. Wallpaper will be applied automatically when Sway starts."
+    fi
   fi
 fi
 
@@ -328,7 +341,7 @@ banner
 success "LABYRINTH installation complete!"
 echo ""
 echo -e "${BOLD}Installed components:${RESET}"
-echo "  - Configs deployed to: ~/.config/{sway,foot,mako,swaylock,waybar}"
+echo "  - Configs deployed to: ~/.config/{fastfetch,foot,fuzzel,mako,sway,swaylock,waybar}"
 echo "  - Wallpapers copied to: ~/Pictures/wallpapers/"
 if [[ "$NEEDS_BACKUP" == true ]] && [[ "$DRY_RUN" == false ]]; then
   echo "  - Backup saved at: $BACKUP_DIR"
