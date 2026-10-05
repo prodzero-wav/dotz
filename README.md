@@ -72,10 +72,11 @@ If you prefer to deploy files manually or are running a non-Arch distribution:
    cp -r dot_config/* ~/.config/
 
    # Rename executable_* scripts if present and set executable permissions:
-   cd ~/.config/sway/scripts
-   for f in executable_*; do [ -f "$f" ] && mv "$f" "${f#executable_}"; done
-   chmod +x ~/.config/sway/scripts/*
-   chmod +x ~/.config/waybar/scripts/*
+   for dir in ~/.config/sway/scripts ~/.config/waybar/scripts; do
+     [ -d "$dir" ] || continue
+     for f in "$dir"/executable_*; do [ -f "$f" ] && mv "$f" "${dir}/${f##*/executable_}"; done
+     chmod +x "$dir"/*
+   done
    ```
 
 3. **Deploy Wallpapers**:
@@ -122,7 +123,8 @@ If you prefer to deploy files manually or are running a non-Arch distribution:
 │   │   └── config           # Swaylock screen lock configuration
 │   └── waybar/
 │       ├── config.jsonc     # Waybar layout & module configuration
-│       └── style.css        # Waybar CSS stylesheet
+│       ├── style.css        # Waybar CSS stylesheet
+│       └── scripts/         # Waybar scripts (uptime / lost time)
 ├── Pictures/
 │   └── wallpapers/
 │       └── labyrinth.jpg    # Default background wallpaper
@@ -167,6 +169,7 @@ Default `$mod` key is set to **`Super`** (Windows key).
 | `$mod + s` | Stacking Layout |
 | `$mod + t` | Tabbed Layout |
 | `$mod + e` | Toggle Split Layout |
+| `$mod + a` | Focus Parent Container |
 | `$mod + Shift + Space` | Toggle Floating Window |
 | `$mod + Space` | Toggle Focus between Tiling & Floating |
 | `$mod + r` | Enter Resize Mode (Use Arrow keys, `Enter`/`Esc` to exit) |
@@ -188,7 +191,7 @@ Default `$mod` key is set to **`Super`** (Windows key).
 | `XF86AudioRaiseVolume` / `LowerVolume` | Adjust Volume with On-Screen Display (`SwayOSD`) |
 | `XF86AudioMute` | Toggle Audio Mute (`SwayOSD`) |
 | `XF86MonBrightnessUp` / `Down` | Adjust Screen Brightness (`SwayOSD`) |
-| `$mod + \` / `XF86AudioPlay` | Play/Pause Media (`playerctl`) |
+| `$mod + \\` / `XF86AudioPlay` | Play/Pause Media (`playerctl`) |
 | `$mod + ]` / `XF86AudioNext` | Next Media Track (`playerctl`) |
 | `$mod + [` / `XF86AudioPrev` | Previous Media Track (`playerctl`) |
 
