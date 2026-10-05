@@ -113,19 +113,6 @@ To ensure all functions and scripts work properly, install the following package
 
 ---
 
-## 📜 Expected Helper Scripts
-
-The Sway configuration references custom helper scripts under `~/.config/sway/scripts/`:
-
-* `focusorlaunch.sh` — Focuses an existing application window or launches it if not open.
-* `saver.sh` — Handles screensaver state (`start` / `stop`).
-* `keys.sh` — Displays keybinding cheatsheet.
-* `lock.sh` — Manages locking with swaylock.
-* `borderglow.py` — Dynamic border effects script.
-* `powermenu.sh` — Power management dialog (Shutdown, Reboot, Lock, Exit).
-
----
-
 ## 🚀 Installation & Deployment
 
 1. **Clone the repository**:
@@ -156,23 +143,20 @@ The Sway configuration references custom helper scripts under `~/.config/sway/sc
 
 *Without removing or breaking any existing configuration, here are recommended enhancements to elevate this setup:*
 
-### 1. 📁 Include Included Helper Scripts
-Add the scripts referenced in `~/.config/sway/scripts/` (`focusorlaunch.sh`, `lock.sh`, `borderglow.py`, `saver.sh`, `powermenu.sh`, `keys.sh`) directly into this repository under `dot_config/sway/scripts/` so the setup works out of the box on fresh installations.
-
-### 2. 📊 Custom Waybar & Mako Theme Configs
+### 1. 📊 Custom Waybar & Mako Theme Configs
 Add matching `waybar` (bar layout and CSS styling) and `mako` (notification daemon configuration) under `dot_config/waybar/` and `dot_config/mako/` using the `#060b09` LABYRINTH palette for seamless visual unity.
 
-### 3. 📋 Clipboard History Manager
+### 2. 📋 Clipboard History Manager
 Integrate `cliphist` or `wl-clipboard` with a Fuzzel binding (e.g. `$mod+c` or `$mod+Shift+v`) to provide searchable clipboard history without modifying existing shortcuts.
 
-### 4. 🌙 Night Light / Gamma Control
+### 3. 🌙 Night Light / Gamma Control
 Add `gammastep` or `wlsunset` to auto-start in Sway config (`exec wlsunset -l <lat> -L <long>`) for smooth, automatic warm-screen transition during evening hours.
 
-### 5. 🖥️ Multi-Monitor Management (`kanshi`)
+### 4. 🖥️ Multi-Monitor Management (`kanshi`)
 Add `kanshi` service integration (`exec kanshi`) and a configuration file to automatically adjust resolution, scaling, and display arrangements when connecting external monitors.
 
-### 6. 🖼️ Fallback Wallpaper Scripting
+### 5. 🖼️ Fallback Wallpaper Scripting
 Update or enhance `lock.sh` and Sway wallpaper configurations with fallback logic so that if `~/Pictures/wallpapers/labyrinth.jpg` is absent, it seamlessly falls back to a solid color (`#060b09`) or a generated gradient without failing.
 
-### 7. 🔊 Network & Bluetooth Tray Integration
+### 6. 🔊 Network & Bluetooth Tray Integration
 Add `nm-applet` and `blueman-applet` auto-start entries (`exec nm-applet --indicator`, `exec blueman-applet`) for quick network and Bluetooth management in Waybar.
