@@ -1,6 +1,6 @@
-# 🌀 LABYRINTH v2: SwayFX Dotfiles
+# LABYRINTH: SwayFX Dotfiles
 
-A custom, atmospheric Wayland desktop environment built around **SwayFX** (a feature-rich fork of Sway with blur, shadows, and window effects), **Foot** terminal emulator, and **Swaylock**.
+A custom, atmospheric Wayland desktop environment built around **SwayFX** (a feature-rich fork of Sway with blur, shadows, and window effects), **Foot** terminal emulator, **Waybar**, **Fuzzel**, **Mako**, and **Swaylock**.
 
 The theme features a muted, dark earthy palette ("pulled from the painting") with deep forest greens, dark teal accents, bone white text, and warm rust accents.
 
@@ -19,17 +19,114 @@ The theme features a muted, dark earthy palette ("pulled from the painting") wit
 
 ---
 
+## 🚀 Installation & Deployment
+
+### ⚡ Quick Start (Automated Installer)
+
+An installation script `install.sh` is provided. It is tailored for **Arch Linux and Arch-based distributions** (Manjaro, EndeavourOS, Garuda, etc.), with automatic AUR helper support (`yay` / `paru`) and general Linux compatibility.
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/your-username/dotfiles.git
+cd dotfiles
+
+# 2. Make the installer executable (if needed) and run
+chmod +x install.sh
+./install.sh
+```
+
+#### Installer Command-Line Options
+
+| Flag / Option | Description |
+| :--- | :--- |
+| `-y, --noconfirm` | Skip interactive prompts and automatically proceed. |
+| `--no-pkgs` | Skip package manager dependency installation. |
+| `--symlink` | Create symbolic links in `~/.config/` instead of copying files. |
+| `--backup-dir DIR` | Specify a custom path for backing up existing configurations. |
+| `--dry-run` | Simulate the installation without modifying files on disk. |
+| `-h, --help` | Display help and usage information. |
+
+**Examples:**
+
+```bash
+# Non-interactive installation with symlinks
+./install.sh -y --symlink
+
+# Dry-run mode to preview changes
+./install.sh --dry-run
+
+# Deploy configs only without installing system packages
+./install.sh --no-pkgs
+```
+
+---
+
+### 🛠️ Manual Installation
+
+If you prefer to deploy files manually or are running a non-Arch distribution:
+
+1. **Install required packages** (see [Software & Dependencies](#-software--dependencies)).
+
+2. **Deploy dotfiles to `~/.config/`**:
+   ```bash
+   cp -r dot_config/* ~/.config/
+
+   # Rename executable_* scripts if present and set executable permissions:
+   cd ~/.config/sway/scripts
+   for f in executable_*; do [ -f "$f" ] && mv "$f" "${f#executable_}"; done
+   chmod +x ~/.config/sway/scripts/*
+   chmod +x ~/.config/waybar/scripts/*
+   ```
+
+3. **Deploy Wallpapers**:
+   ```bash
+   mkdir -p ~/Pictures/wallpapers
+   cp Pictures/wallpapers/* ~/Pictures/wallpapers/
+   ```
+
+---
+
+## 🛠️ Software & Dependencies
+
+### Official Packages (Arch Linux / Pacman)
+* **Window Manager**: `swayfx` (Sway fork with extra effects)
+* **Terminal**: `foot`
+* **Application Launcher**: `fuzzel`
+* **Status Bar & Notifications**: `waybar`, `mako`
+* **Lock & Idle Manager**: `swaylock`, `swayidle`
+* **Audio & System Control**: `playerctl`, `pavucontrol`, `fastfetch`, `power-profiles-daemon`
+* **Screenshots & Utilities**: `grim`, `slurp`, `wl-clipboard`, `imagemagick`, `python`
+* **File Manager & Web Browser**: `thunar`, `firefox`
+* **Fonts & Schemas**: `ttf-unifont`, `ttf-nerd-fonts-symbols`, `gsettings-desktop-schemas`, `glib2`
+
+### AUR Packages
+* **On-Screen Display**: `swayosd-git` (or `swayosd`)
+* **Cursor Theme**: `hackneyed-cursor-theme` (optional)
+
+---
+
 ## 📁 Repository Structure
 
 ```text
 .
-└── dot_config/
-    ├── foot/
-    │   └── foot.ini         # Foot terminal configuration (transparency, fonts, palette)
-    ├── sway/
-    │   └── config           # SwayFX window manager configuration
-    └── swaylock/
-        └── config           # Swaylock screen lock configuration
+├── install.sh               # Automated installer script (Arch-optimized & universal fallback)
+├── dot_config/
+│   ├── foot/
+│   │   └── foot.ini         # Foot terminal configuration (transparency, colors, fonts)
+│   ├── mako/
+│   │   └── config           # Mako notification daemon configuration
+│   ├── sway/
+│   │   ├── config           # SwayFX window manager configuration & keybindings
+│   │   └── scripts/         # Sway automation scripts (lock, saver, borderglow, powermenu)
+│   ├── swaylock/
+│   │   └── config           # Swaylock screen lock configuration
+│   └── waybar/
+│       ├── config.jsonc     # Waybar layout & module configuration
+│       └── style.css        # Waybar CSS stylesheet
+├── Pictures/
+│   └── wallpapers/
+│       └── labyrinth.jpg    # Default background wallpaper
+└── README.md                # Documentation
 ```
 
 ---
@@ -97,36 +194,8 @@ Default `$mod` key is set to **`Super`** (Windows key).
 
 ---
 
-## 🛠️ Software & Dependencies
+## 🎨 Special Visual Features
 
-To ensure all functions and scripts work properly, install the following packages on your Linux system:
-
-* **Window Manager**: `swayfx` (Sway fork with extra effects)
-* **Terminal**: `foot`
-* **Launcher**: `fuzzel`
-* **Bar & Notifications**: `waybar`, `mako`
-* **Lock & Idle Manager**: `swaylock-effects` / `swaylock`, `swayidle`
-* **OSD & Control Utilities**: `swayosd`, `playerctl`, `pavucontrol`, `fastfetch`
-* **Screenshots**: `grim`, `slurp`, `wl-clipboard`
-* **File Manager & Web Browser**: `thunar`, `firefox`
-* **Fonts & Cursor**: `UnifontExMono`, `Symbols Nerd Font Mono`, `Hackneyed` cursor theme
-
----
-
-## 🚀 Installation & Deployment
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-username/dotfiles.git
-   cd dotfiles
-   ```
-
-2. **Deploy configuration files**:
-   Copy or symlink the `dot_config/` contents to `~/.config/`:
-   ```bash
-   cp -r dot_config/* ~/.config/
-   ```
-   Or using GNU Stow:
-   ```bash
-   stow --target=$HOME/.config dot_config
-   ```
+* **Dynamic Border Glow**: `borderglow.py` running in background pulses the active window border between Bone and Teal.
+* **Maze Screensaver**: Animated Python maze saver (`mazesaver.py`) launched full-screen via `$mod + z` or automatically on idle.
+* **Waybar Integration**: Dynamic uptime ("lost time"), hardware stats, volume controls, and power profile manager integrated into Waybar.
