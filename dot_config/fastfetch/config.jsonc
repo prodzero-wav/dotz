@@ -1,0 +1,24 @@
+{
+  "logo": {
+    "type": "file",
+    "source": "/home/jdog/.config/fastfetch/maze.txt",
+    "color": { "1": "38;2;212;203;168" },
+    "padding": { "right": 3 }
+  },
+  "display": {
+    "separator": "  ›  ",
+    "color": { "keys": "38;2;111;159;139", "title": "38;2;212;203;168" }
+  },
+  "modules": [
+    "title",
+    "break",
+    { "type": "os", "key": "origin" },
+    { "type": "kernel", "key": "core" },
+    { "type": "uptime", "key": "time lost" },
+    { "type": "wm", "key": "walls" },
+    { "type": "shell", "key": "voice" },
+    { "type": "terminal", "key": "window" },
+    { "type": "cpu", "key": "thoughts" },
+    { "type": "memory", "key": "memory" }
+  ]
+}
