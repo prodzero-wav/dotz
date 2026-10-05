@@ -28,7 +28,7 @@ An installation script `install.sh` is provided. It is tailored for **Arch Linux
 ```bash
 # 1. Clone the repository
 git clone https://github.com/prodzero-wav/dotz
-cd dotfiles
+cd dotz
 
 # 2. Make the installer executable (if needed) and run
 chmod +x install.sh
