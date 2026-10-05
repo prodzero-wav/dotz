@@ -1,0 +1,190 @@
+# LABYRINTH v2: SwayFX
+set $mod Mod4
+set $term foot
+set $menu fuzzel
+set $browser firefox
+set $browser_id firefox
+set $files thunar
+
+# palette (pulled from the painting)
+set $bg    #060b09
+set $green #1f3a31
+set $teal  #6f9f8b
+set $bone  #d4cba8
+set $dim   #8f8a6e
+set $rust  #b5523b
+
+font pango:UnifontExMono 12
+xwayland enable
+output * bg ~/Pictures/wallpapers/labyrinth.jpg fill
+seat * hide_cursor 5000
+focus_follows_mouse yes
+
+input type:keyboard {
+    xkb_layout gb
+}
+input type:touchpad {
+    tap enabled
+    dwt enabled
+}
+
+# ---------- look ----------
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders smart
+gaps inner 14
+gaps outer 6
+
+client.focused          $bone  $bg $bone $bone  $bone
+client.focused_inactive $green $bg $dim  $green $green
+client.unfocused        $green $bg $dim  $green $green
+client.urgent           $rust  $bg $rust $rust  $rust
+client.background       $bg
+
+# ---------- SwayFX ----------
+corner_radius 0
+blur enable
+blur_passes 4
+blur_radius 6
+blur_noise 0.04
+blur_brightness 0.75
+blur_contrast 1.1
+blur_saturation 1.15
+
+# focused window glows teal, the rest sink into black
+shadows enable
+shadow_blur_radius 55
+shadow_offset 0 0
+shadow_color #6f9f8b66
+shadow_inactive_color #000000cc
+
+default_dim_inactive 0.25
+dim_inactive_colors.unfocused #000000ff
+
+layer_effects "waybar" blur enable; blur_ignore_transparent enable; shadows enable
+layer_effects "launcher" blur enable; shadows enable
+layer_effects "notifications" blur enable; shadows enable
+
+# ---------- apps ----------
+bindsym $mod+Return exec $term
+bindsym $mod+d exec $menu
+bindsym $mod+w exec ~/.config/sway/scripts/focusorlaunch.sh $browser_id $browser
+bindsym $mod+Shift+w exec $browser --new-window
+bindsym $mod+n exec $files
+bindsym $mod+p exec pavucontrol
+bindsym $mod+Shift+i exec foot --hold fastfetch
+bindsym $mod+z exec ~/.config/sway/scripts/saver.sh start
+bindsym $mod+slash exec ~/.config/sway/scripts/keys.sh
+bindsym $mod+grave [app_id="dropdown"] scratchpad show
+
+# ---------- session ----------
+bindsym $mod+q kill
+bindsym $mod+Shift+c reload
+bindsym $mod+Escape exec ~/.config/sway/scripts/lock.sh
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Leave the maze?' -B 'Exit' 'swaymsg exit'
+bindsym $mod+Shift+n exec makoctl dismiss -a
+
+# ---------- focus / move ----------
+floating_modifier $mod normal
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# ---------- layout ----------
+bindsym $mod+g splith
+bindsym $mod+v splitv
+bindsym $mod+f fullscreen
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+bindsym $mod+Tab workspace back_and_forth
+
+# ---------- workspaces ----------
+workspace_auto_back_and_forth yes
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+mode "resize" {
+    bindsym Left resize shrink width 40px
+    bindsym Down resize grow height 40px
+    bindsym Up resize shrink height 40px
+    bindsym Right resize grow width 40px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# ---------- media / screenshots ----------
+bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
+bindsym Print exec grim ~/Pictures/shot-$(date +%s).png
+
+# ---------- rules ----------
+for_window [app_id="pavucontrol"] floating enable
+for_window [title="^Picture-in-Picture$"] floating enable, sticky enable
+for_window [app_id="dropdown"] floating enable, resize set width 85 ppt height 45 ppt, move position center, move scratchpad
+
+# ---------- startup ----------
+bar {
+    swaybar_command waybar
+}
+exec mako
+exec ~/.config/sway/scripts/lock.sh prepare
+exec ~/.config/sway/scripts/borderglow.py
+exec foot --app-id=dropdown
+exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+exec swayidle -w timeout 180 '~/.config/sway/scripts/saver.sh start' resume '~/.config/sway/scripts/saver.sh stop' timeout 300 '~/.config/sway/scripts/lock.sh' timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' before-sleep '~/.config/sway/scripts/lock.sh'
+
+include /etc/sway/config.d/*
+
+# ---------- now playing ----------
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+bindsym $mod+backslash exec playerctl play-pause
+bindsym $mod+bracketright exec playerctl next
+bindsym $mod+bracketleft exec playerctl previous
+for_window [app_id="^(?!foot|dropdown|mazesaver).*"] opacity 0.95
+for_window [class=".*"] opacity 0.95
+for_window [app_id="firefox"] opacity 0.9
+bindsym $mod+Shift+p exec ~/.config/sway/scripts/powermenu.sh
+
+# RICE2-BEGIN
+animation_duration_ms 200
+seat * hide_cursor when-typing enable
+exec swayosd-server
+bindsym XF86AudioRaiseVolume exec swayosd-client --output-volume raise
+bindsym XF86AudioLowerVolume exec swayosd-client --output-volume lower
+bindsym XF86AudioMute exec swayosd-client --output-volume mute-toggle
+bindsym XF86MonBrightnessUp exec swayosd-client --brightness raise
+bindsym XF86MonBrightnessDown exec swayosd-client --brightness lower
+# RICE2-END
+seat seat0 xcursor_theme Hackneyed 24
+bindsym --release Super_L exec pkill fuzzel || fuzzel
