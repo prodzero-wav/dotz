@@ -136,27 +136,3 @@ To ensure all functions and scripts work properly, install the following package
    ```bash
    ~/Pictures/wallpapers/labyrinth.jpg
    ```
-
----
-
-## 🚀 Suggested Upgrades & Enhancements
-
-*Without removing or breaking any existing configuration, here are recommended enhancements to elevate this setup:*
-
-### 1. 📊 Custom Waybar & Mako Theme Configs
-Add matching `waybar` (bar layout and CSS styling) and `mako` (notification daemon configuration) under `dot_config/waybar/` and `dot_config/mako/` using the `#060b09` LABYRINTH palette for seamless visual unity.
-
-### 2. 📋 Clipboard History Manager
-Integrate `cliphist` or `wl-clipboard` with a Fuzzel binding (e.g. `$mod+c` or `$mod+Shift+v`) to provide searchable clipboard history without modifying existing shortcuts.
-
-### 3. 🌙 Night Light / Gamma Control
-Add `gammastep` or `wlsunset` to auto-start in Sway config (`exec wlsunset -l <lat> -L <long>`) for smooth, automatic warm-screen transition during evening hours.
-
-### 4. 🖥️ Multi-Monitor Management (`kanshi`)
-Add `kanshi` service integration (`exec kanshi`) and a configuration file to automatically adjust resolution, scaling, and display arrangements when connecting external monitors.
-
-### 5. 🖼️ Fallback Wallpaper Scripting
-Update or enhance `lock.sh` and Sway wallpaper configurations with fallback logic so that if `~/Pictures/wallpapers/labyrinth.jpg` is absent, it seamlessly falls back to a solid color (`#060b09`) or a generated gradient without failing.
-
-### 6. 🔊 Network & Bluetooth Tray Integration
-Add `nm-applet` and `blueman-applet` auto-start entries (`exec nm-applet --indicator`, `exec blueman-applet`) for quick network and Bluetooth management in Waybar.
