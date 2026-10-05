@@ -1,4 +1,4 @@
-# 🌀 LABYRINTH v2: SwayFX Dotfiles
+# LABYRINTH: SwayFX Dotfiles
 
 A custom, atmospheric Wayland desktop environment built around **SwayFX** (a feature-rich fork of Sway with blur, shadows, and window effects), **Foot** terminal emulator, **Waybar**, **Fuzzel**, **Mako**, and **Swaylock**.
 

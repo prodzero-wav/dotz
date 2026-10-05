@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# 🌀 LABYRINTH v2 Dotfiles Installer
+# LABYRINTH Dotfiles Installer
 # Arch-like distro optimized installer with general Linux compatibility.
 #
 
@@ -82,8 +82,8 @@ error() {
 
 banner() {
   echo -e "${CYAN}${BOLD}"
-  echo '  🌀 LABYRINTH v2 : Dotfiles Installer'
-  echo '  ==================================='
+  echo '  LABYRINTH : Dotfiles Installer'
+  echo '  =============================='
   echo -e "${RESET}"
 }
 
@@ -325,7 +325,7 @@ fi
 # --- Post-Installation Summary ---
 echo ""
 banner
-success "LABYRINTH v2 installation complete!"
+success "LABYRINTH installation complete!"
 echo ""
 echo -e "${BOLD}Installed components:${RESET}"
 echo "  - Configs deployed to: ~/.config/{sway,foot,mako,swaylock,waybar}"
