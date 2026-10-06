@@ -63,7 +63,7 @@ dim_inactive_colors.unfocused #000000ff
 
 layer_effects "waybar" blur enable; blur_ignore_transparent enable; shadows enable
 layer_effects "launcher" blur enable; shadows enable
-layer_effects "notifications" blur enable; shadows enable
+layer_effects "notifications" blur enable; blur_ignore_transparent enable; shadows disable
 
 # ---------- apps ----------
 bindsym $mod+Return exec $term
