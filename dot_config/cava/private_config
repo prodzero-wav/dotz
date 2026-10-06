@@ -1,0 +1,11 @@
+[color]
+gradient = 1
+gradient_count = 6
+
+# Gradient mapping from bottom to top of the visualizer bars
+gradient_color_1 = '#1f3a31' ; Green (Inactive/Base)
+gradient_color_2 = '#6f9f8b' ; Teal (Accent / Glow)
+gradient_color_3 = '#8f8a6e' ; Dim (Secondary)
+gradient_color_4 = '#d4cba8' ; Bone (Foreground Highlight)
+gradient_color_5 = '#d4cba8' ; Bone
+gradient_color_6 = '#b5523b' ; Rust (Peak / Extreme)
