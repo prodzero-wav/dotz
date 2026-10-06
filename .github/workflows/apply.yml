@@ -1,0 +1,22 @@
+name: Apply tarball
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply the uploaded tarball
+        run: |
+          f=$(ls *.tar.gz *.tgz *.tar 2>/dev/null | head -1)
+          test -n "$f" || { echo "No tarball found in the repo root"; exit 1; }
+          git rm -q --ignore-unmatch dot_config/mako/config.fontbak dot_config/waybar/config.jsonc.bak dot_config/waybar/style.css.bak dot_config/waybar/style.css.fontbak dot_config/fastfetch/config.jsonc
+          tar xf "$f" --strip-components=1
+          rm "$f"
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Fix dependencies, add missing configs, chezmoi templates, post-install"
+          git push
