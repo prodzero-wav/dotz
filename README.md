@@ -6,16 +6,11 @@ The theme features a muted, dark earthy palette ("pulled from the painting") wit
 
 ---
 
-## 🎨 Color Palette
+## 🎨 Screenshots
 
-| Name | Hex Code | Visual Sample | Usage |
-| :--- | :--- | :--- | :--- |
-| **Background** (`$bg`) | `#060b09` | 🖤 `#060b09` | Dark background base |
-| **Green** (`$green`) | `#1f3a31` | 🟢 `#1f3a31` | Inactive/Unfocused borders |
-| **Teal** (`$teal`) | `#6f9f8b` | 🩵 `#6f9f8b` | Accent / Focus glow & key highlights |
-| **Bone** (`$bone`) | `#d4cba8` | 🤍 `#d4cba8` | Foreground text & focused borders |
-| **Dim** (`$dim`) | `#8f8a6e` | 💛 `#8f8a6e` | Dimmed text / Secondary indicators |
-| **Rust** (`$rust`) | `#b5523b` | 🔴 `#b5523b` | Urgent notifications & error highlights |
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/d23e545a-431b-448b-a054-5de2826c91fc" />
+<img width="1024" height="576" alt="image" src="https://github.com/user-attachments/assets/2e90eb81-7f1b-4fb3-9c5c-1331d5b56789" />
+
 
 ---
 
@@ -77,12 +72,7 @@ chezmoi only deploys the dotfiles. It does not install packages, the UnifontEX f
 
 ### 🖥️ Per-machine settings
 
-Settings that depend on the hardware (monitor mode, refresh rate) are **not** tracked. Put them in `~/.config/sway/local.d/*.conf`, which the sway config includes:
-
-```
-# find the output name:  swaymsg -t get_outputs
-output DP-2 mode 2560x1440@169.999Hz
-```
+Settings that depend on the hardware (monitor mode, refresh rate) are **not** tracked.
 
 ### 🛠️ Manual Installation
 
@@ -138,34 +128,6 @@ If you prefer to deploy files manually or are running a non-Arch distribution:
 - GTK/Qt theme settings, the Hackneyed cursor settings, the shell prompt and the Firefox theme
 
 
-## 📁 Repository Structure
-
-```
-.
-├── install.sh                 # Installer (Arch-optimized, with fallbacks)
-├── .chezmoiignore             # Files chezmoi should not deploy
-├── extras/
-│   ├── post-install.sh        # Font, GTK, cursor, prompt, services
-│   └── firefox-theme.sh       # Firefox userChrome theme
-├── dot_config/
-│   ├── fastfetch/             # config.jsonc.tmpl + maze.txt logo
-│   ├── foot/                  # terminal
-│   ├── fuzzel/                # launcher
-│   ├── gtk-3.0/, gtk-4.0/     # GTK theme + palette
-│   ├── labyrinth/prompt.bash  # bash prompt
-│   ├── mako/                  # notifications
-│   ├── sway/                  # config + scripts (lock, saver, borderglow, powermenu...)
-│   ├── swaylock/              # lock screen
-│   ├── subtui/                # Navidrome TUI player theme
-│   ├── swayosd/               # volume/brightness popups
-│   ├── waybar/                # bar + scripts
-│   └── yazi/                  # file manager theme
-├── Pictures/wallpapers/       # labyrinth.jpg
-└── README.md
-```
-<!-- Add a screenshot here: ![LABYRINTH](docs/screenshot.png) -->
-
-
 ## ⌨️ Keybindings Reference
 
 Default `$mod` key is set to **`Super`** (Windows key).
@@ -180,7 +142,7 @@ Default `$mod` key is set to **`Super`** (Windows key).
 | `$mod + Shift + w` | Launch Firefox (New Window) |
 | `$mod + n` | Open File Manager (`yazi` in foot) |
 | `$mod + Shift + f` | Open GUI File Manager (`thunar`) |
-| `$mod + m` | Open/Focus Music Player (`subtui`, Navidrome) |
+| `$mod + m` | Open/Focus Music Player (`subtui`,) |
 | `$mod + p` | Open Audio Control (`pavucontrol`) |
 | `$mod + Shift + i` | Open System Information (`fastfetch`) |
 | `$mod + z` | Start Screen Saver (`saver.sh start`) |
