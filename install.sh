@@ -35,12 +35,11 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # --- Packages ---
 ARCH_PACMAN_PKGS=(
-  swayfx
   foot
   fuzzel
   waybar
   mako
-  swaylock
+  swaybg
   swayidle
   playerctl
   pavucontrol
@@ -52,15 +51,25 @@ ARCH_PACMAN_PKGS=(
   firefox
   python
   imagemagick
-  ttf-unifont
   ttf-nerd-fonts-symbols
+  ttf-nerd-fonts-symbols-mono
   gsettings-desktop-schemas
   glib2
   power-profiles-daemon
+  adw-gtk-theme
+  papirus-icon-theme
+  qt5-wayland
+  qt6-wayland
+  dconf
+  curl
 )
 
 ARCH_AUR_PKGS=(
+  scenefx0.5
+  swayfx
+  swaylock-effects
   swayosd-git
+  xcursor-hackneyed-light
 )
 
 # --- Helper Functions ---
@@ -196,13 +205,25 @@ if [[ "$SKIP_PKGS" == false ]]; then
       fi
 
       info "Installing official packages via pacman..."
-      $SUDO_CMD pacman -S --needed --noconfirm "${ARCH_PACMAN_PKGS[@]}" || warn "Some official packages failed to install."
+      for pkg in "${ARCH_PACMAN_PKGS[@]}"; do
+        $SUDO_CMD pacman -S --needed --noconfirm "$pkg" || warn "Could not install: $pkg"
+      done
 
       if [[ -n "$AUR_HELPER" ]]; then
         info "Installing AUR packages via $AUR_HELPER..."
-        $AUR_HELPER -S --needed --noconfirm "${ARCH_AUR_PKGS[@]}" || warn "Some AUR packages failed to install."
+        if pacman -Qq swaylock &>/dev/null && ! pacman -Qq swaylock-effects &>/dev/null; then
+          info "Replacing swaylock with swaylock-effects..."
+          $SUDO_CMD pacman -Rdd --noconfirm swaylock || warn "Could not remove swaylock."
+        fi
+        for pkg in "${ARCH_AUR_PKGS[@]}"; do
+          $AUR_HELPER -S --needed --noconfirm "$pkg" || warn "Could not install AUR package: $pkg"
+        done
+        if ! command -v sway &>/dev/null; then
+          warn "swayfx did not install, trying swayfx-git..."
+          $AUR_HELPER -S --needed --noconfirm swayfx-git || warn "Could not install swayfx-git either. Install swayfx manually."
+        fi
       else
-        warn "No AUR helper (yay/paru) detected. Please install 'swayosd' from the AUR manually if needed."
+        warn "No AUR helper (yay/paru) detected. Please install swayfx, swaylock-effects and swayosd from the AUR manually."
       fi
     fi
   else
@@ -225,7 +246,7 @@ fi
 TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 BACKUP_DIR="${CUSTOM_BACKUP_DIR:-$HOME/.config/labyrinth_backup_$TIMESTAMP}"
 CONFIG_TARGET_DIR="$HOME/.config"
-CONFIGS_TO_DEPLOY=(fastfetch foot fuzzel mako sway swaylock waybar)
+CONFIGS_TO_DEPLOY=(fastfetch foot fuzzel mako sway swaylock waybar gtk-3.0 gtk-4.0 swayosd fish labyrinth)
 NEEDS_BACKUP=false
 
 for cfg in "${CONFIGS_TO_DEPLOY[@]}"; do
@@ -273,6 +294,7 @@ deploy_directory() {
 
     # Strip executable_ prefix if present
     local clean_name="${rel_name#executable_}"
+    clean_name="${clean_name%.tmpl}"
     local target_item="$dest_dir/$clean_name"
 
     if [[ -d "$item" ]]; then
@@ -282,7 +304,9 @@ deploy_directory() {
         info "[DRY-RUN] Deploy $item -> $target_item"
       else
         rm -f "$target_item"
-        if [[ "$USE_SYMLINK" == true ]]; then
+        if [[ "$rel_name" == *.tmpl ]]; then
+          sed "s|{{ .chezmoi.homeDir }}|$HOME|g" "$item" > "$target_item"
+        elif [[ "$USE_SYMLINK" == true ]]; then
           ln -s "$item" "$target_item"
         else
           cp "$item" "$target_item"
@@ -335,13 +359,18 @@ if [[ "$DRY_RUN" == false ]]; then
   find "$CONFIG_TARGET_DIR/waybar/scripts" -type f -exec chmod +x {} + 2>/dev/null || true
 fi
 
+# --- Post-install extras (UnifontEX font, GTK, cursor, shell prompt, Firefox theme) ---
+if [[ "$DRY_RUN" == false ]]; then
+  bash "$REPO_DIR/extras/post-install.sh" || warn "Post-install step had problems (see above)."
+fi
+
 # --- Post-Installation Summary ---
 echo ""
 banner
 success "LABYRINTH installation complete!"
 echo ""
 echo -e "${BOLD}Installed components:${RESET}"
-echo "  - Configs deployed to: ~/.config/{fastfetch,foot,fuzzel,mako,sway,swaylock,waybar}"
+echo "  - Configs deployed to: ~/.config/{fastfetch,foot,fuzzel,mako,sway,swaylock,waybar,gtk-3.0,gtk-4.0,swayosd,fish,labyrinth}"
 echo "  - Wallpapers copied to: ~/Pictures/wallpapers/"
 if [[ "$NEEDS_BACKUP" == true ]] && [[ "$DRY_RUN" == false ]]; then
   echo "  - Backup saved at: $BACKUP_DIR"

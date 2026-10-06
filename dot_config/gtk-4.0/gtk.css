@@ -1,0 +1,35 @@
+/* LABYRINTH */
+@define_color accent_bg_color #6f9f8b;
+@define_color accent_fg_color #060b09;
+@define_color accent_color #8fc0aa;
+@define_color destructive_bg_color #b5523b;
+@define_color destructive_fg_color #efe8cc;
+@define_color destructive_color #d06a50;
+@define_color success_bg_color #6f9f8b;
+@define_color warning_bg_color #c9b97a;
+@define_color warning_fg_color #060b09;
+@define_color error_bg_color #b5523b;
+@define_color window_bg_color #0b1411;
+@define_color window_fg_color #d4cba8;
+@define_color view_bg_color #060b09;
+@define_color view_fg_color #d4cba8;
+@define_color headerbar_bg_color #0d1814;
+@define_color headerbar_fg_color #d4cba8;
+@define_color headerbar_border_color rgba(212, 203, 168, 0.25);
+@define_color headerbar_backdrop_color #0b1411;
+@define_color card_bg_color #0d1814;
+@define_color card_fg_color #d4cba8;
+@define_color dialog_bg_color #0b1411;
+@define_color dialog_fg_color #d4cba8;
+@define_color popover_bg_color #060b09;
+@define_color popover_fg_color #d4cba8;
+@define_color sidebar_bg_color #0b1411;
+@define_color sidebar_fg_color #d4cba8;
+@define_color sidebar_backdrop_color #0b1411;
+@define_color sidebar_border_color rgba(212, 203, 168, 0.15);
+@define_color shade_color rgba(0, 0, 0, 0.4);
+@define_color scrollbar_outline_color rgba(0, 0, 0, 0.5);
+
+/* sharp corners, thin bone lines */
+* { border-radius: 0; }
+window { border: 1px solid rgba(212, 203, 168, 0.18); }

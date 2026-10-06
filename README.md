@@ -26,6 +26,9 @@ The theme features a muted, dark earthy palette ("pulled from the painting") wit
 An installation script `install.sh` is provided. It is tailored for **Arch Linux and Arch-based distributions** (Manjaro, EndeavourOS, Garuda, etc.), with automatic AUR helper support (`yay` / `paru`) and general Linux compatibility.
 
 ```bash
+# 0. Update your system first (avoids stale-database 404s):
+sudo pacman -Syu
+
 # 1. Clone the repository
 git clone https://github.com/prodzero-wav/dotz
 cd dotz
@@ -61,6 +64,25 @@ chmod +x install.sh
 
 ---
 
+### 🏠 With chezmoi
+
+The repo uses chezmoi naming (`dot_config`, `executable_*`, `.tmpl`), so you can deploy the configs with chezmoi:
+
+```
+chezmoi init --apply prodzero-wav/dotz
+```
+
+chezmoi only deploys the dotfiles. It does not install packages, the UnifontEX font, the cursor theme or the Firefox theme. Run `./install.sh` (or `extras/post-install.sh`) for those.
+
+### 🖥️ Per-machine settings
+
+Settings that depend on the hardware (monitor mode, refresh rate) are **not** tracked. Put them in `~/.config/sway/local.d/*.conf`, which the sway config includes:
+
+```
+# find the output name:  swaymsg -t get_outputs
+output DP-2 mode 2560x1440@169.999Hz
+```
+
 ### 🛠️ Manual Installation
 
 If you prefer to deploy files manually or are running a non-Arch distribution:
@@ -72,10 +94,14 @@ If you prefer to deploy files manually or are running a non-Arch distribution:
    cp -r dot_config/* ~/.config/
 
    # Rename executable_* scripts if present and set executable permissions:
-   cd ~/.config/sway/scripts
-   for f in executable_*; do [ -f "$f" ] && mv "$f" "${f#executable_}"; done
-   chmod +x ~/.config/sway/scripts/*
-   chmod +x ~/.config/waybar/scripts/*
+   for d in ~/.config/sway/scripts ~/.config/waybar/scripts; do
+     for f in "$d"/executable_*; do [ -f "$f" ] && mv "$f" "$d/$(basename "$f" | sed 's/^executable_//')"; done
+     chmod +x "$d"/*
+   done
+
+   # Fill in the fastfetch template (chezmoi does this automatically):
+   cd ~/.config/fastfetch
+   sed "s|{{ .chezmoi.homeDir }}|$HOME|g" config.jsonc.tmpl > config.jsonc && rm config.jsonc.tmpl
    ```
 
 3. **Deploy Wallpapers**:
@@ -89,47 +115,53 @@ If you prefer to deploy files manually or are running a non-Arch distribution:
 ## 🛠️ Software & Dependencies
 
 ### Official Packages (Arch Linux / Pacman)
-* **Window Manager**: `swayfx` (Sway fork with extra effects)
-* **Terminal**: `foot`
-* **Application Launcher**: `fuzzel`
-* **Status Bar & Notifications**: `waybar`, `mako`
-* **Lock & Idle Manager**: `swaylock`, `swayidle`
-* **Audio & System Control**: `playerctl`, `pavucontrol`, `fastfetch`, `power-profiles-daemon`
-* **Screenshots & Utilities**: `grim`, `slurp`, `wl-clipboard`, `imagemagick`, `python`
-* **File Manager & Web Browser**: `thunar`, `firefox`
-* **Fonts & Schemas**: `ttf-unifont`, `ttf-nerd-fonts-symbols`, `gsettings-desktop-schemas`, `glib2`
+
+- **Window manager helpers**: `swaybg`, `swayidle`
+- **Terminal / launcher / bar / notifications**: `foot`, `fuzzel`, `waybar`, `mako`
+- **System tools**: `playerctl`, `pavucontrol`, `fastfetch`, `power-profiles-daemon`, `grim`, `slurp`, `wl-clipboard`, `imagemagick`, `python`, `curl`
+- **Apps**: `thunar`, `firefox`
+- **Theming**: `adw-gtk-theme`, `papirus-icon-theme`, `qt5-wayland`, `qt6-wayland`, `dconf`, `gsettings-desktop-schemas`, `glib2`
+- **Fonts**: `ttf-nerd-fonts-symbols`, `ttf-nerd-fonts-symbols-mono` (icon glyphs)
 
 ### AUR Packages
-* **On-Screen Display**: `swayosd-git` (or `swayosd`)
-* **Cursor Theme**: `hackneyed-cursor-theme` (optional)
 
----
+- `swayfx` (needs `scenefx0.5`; falls back to `swayfx-git`)
+- `swaylock-effects` (the lock config needs it; plain `swaylock` will not work)
+- `swayosd-git` (volume/brightness popups)
+- `xcursor-hackneyed-light` (cursor theme, optional)
+
+### Installed by `extras/post-install.sh`
+
+- **UnifontEX** (`UnifontExMono`): not packaged for Arch, downloaded from https://github.com/stgiga/UnifontEX
+- GTK/Qt theme settings, the Hackneyed cursor settings, the shell prompt and the Firefox theme
+
 
 ## 📁 Repository Structure
 
-```text
-.
-├── install.sh               # Automated installer script (Arch-optimized & universal fallback)
-├── dot_config/
-│   ├── foot/
-│   │   └── foot.ini         # Foot terminal configuration (transparency, colors, fonts)
-│   ├── mako/
-│   │   └── config           # Mako notification daemon configuration
-│   ├── sway/
-│   │   ├── config           # SwayFX window manager configuration & keybindings
-│   │   └── scripts/         # Sway automation scripts (lock, saver, borderglow, powermenu)
-│   ├── swaylock/
-│   │   └── config           # Swaylock screen lock configuration
-│   └── waybar/
-│       ├── config.jsonc     # Waybar layout & module configuration
-│       └── style.css        # Waybar CSS stylesheet
-├── Pictures/
-│   └── wallpapers/
-│       └── labyrinth.jpg    # Default background wallpaper
-└── README.md                # Documentation
 ```
+.
+├── install.sh                 # Installer (Arch-optimized, with fallbacks)
+├── .chezmoiignore             # Files chezmoi should not deploy
+├── extras/
+│   ├── post-install.sh        # Font, GTK, cursor, prompt, services
+│   └── firefox-theme.sh       # Firefox userChrome theme
+├── dot_config/
+│   ├── fastfetch/             # config.jsonc.tmpl + maze.txt logo
+│   ├── fish/                  # fish prompt + Qt env
+│   ├── foot/                  # terminal
+│   ├── fuzzel/                # launcher
+│   ├── gtk-3.0/, gtk-4.0/     # GTK theme + palette
+│   ├── labyrinth/prompt.bash  # bash prompt
+│   ├── mako/                  # notifications
+│   ├── sway/                  # config + scripts (lock, saver, borderglow, powermenu...)
+│   ├── swaylock/              # lock screen
+│   ├── swayosd/               # volume/brightness popups
+│   └── waybar/                # bar + scripts
+├── Pictures/wallpapers/       # labyrinth.jpg
+└── README.md
+```
+<!-- Add a screenshot here: ![LABYRINTH](docs/screenshot.png) -->
 
----
 
 ## ⌨️ Keybindings Reference
 
