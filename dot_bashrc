@@ -16,7 +16,7 @@ alias shutdown='sudo shutdown'
 fuckyou()
 {
 	echo "Ask politely next time!"
-	sudo $(fc -ln -1)
+	sudo bash -c "$(fc -ln -2)"
 }
 
 goodnight()
@@ -51,22 +51,20 @@ eval "$(zoxide init bash)"
 i() {
     for pkg in "$@"; do
         if pacman -Si "$pkg" &>/dev/null; then
-            sudo pacman -S --noconfirm "$pkg"
+            sudo pacman -S "$pkg"
         else
-          paru -S --noconfirm "$pkg"
+          paru -S "$pkg"
         fi
     done
 }
 
 update()
 { 
-    paru -Syu --noconfirm
+    paru -Syu
 }
 
 export EDITOR="nano"
 export VISUAL="nano"
-
-PS1="\[\e[38;2;111;159;139m\]\u\[\e[0m\] \[\e[38;2;212;203;168m\]\w\[\e[0m\] ▸ "
 
 # LABYRINTH-PROMPT
 [ -f "$HOME/.config/labyrinth/prompt.bash" ] && source "$HOME/.config/labyrinth/prompt.bash"

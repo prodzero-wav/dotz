@@ -119,7 +119,7 @@ If you prefer to deploy files manually or are running a non-Arch distribution:
 - **Window manager helpers**: `swaybg`, `swayidle`
 - **Terminal / launcher / bar / notifications**: `foot`, `fuzzel`, `waybar`, `mako`
 - **System tools**: `playerctl`, `pavucontrol`, `fastfetch`, `power-profiles-daemon`, `grim`, `slurp`, `wl-clipboard`, `imagemagick`, `python`, `curl`
-- **Apps**: `thunar`, `firefox`
+- **Apps**: `yazi` (+ `ffmpeg`, `fd`, `ripgrep`, `fzf`, `poppler` for previews), `mpv`, `thunar`, `firefox`
 - **Theming**: `adw-gtk-theme`, `papirus-icon-theme`, `qt5-wayland`, `qt6-wayland`, `dconf`, `gsettings-desktop-schemas`, `glib2`
 - **Fonts**: `ttf-nerd-fonts-symbols`, `ttf-nerd-fonts-symbols-mono` (icon glyphs)
 
@@ -129,6 +129,7 @@ If you prefer to deploy files manually or are running a non-Arch distribution:
 - `swaylock-effects` (the lock config needs it; plain `swaylock` will not work)
 - `swayosd-git` (volume/brightness popups)
 - `xcursor-hackneyed-light` (cursor theme, optional)
+- `subtui-git` (Navidrome TUI player; run it once and log in, credentials are stored locally and never tracked)
 
 ### Installed by `extras/post-install.sh`
 
@@ -147,7 +148,6 @@ If you prefer to deploy files manually or are running a non-Arch distribution:
 │   └── firefox-theme.sh       # Firefox userChrome theme
 ├── dot_config/
 │   ├── fastfetch/             # config.jsonc.tmpl + maze.txt logo
-│   ├── fish/                  # fish prompt + Qt env
 │   ├── foot/                  # terminal
 │   ├── fuzzel/                # launcher
 │   ├── gtk-3.0/, gtk-4.0/     # GTK theme + palette
@@ -155,8 +155,10 @@ If you prefer to deploy files manually or are running a non-Arch distribution:
 │   ├── mako/                  # notifications
 │   ├── sway/                  # config + scripts (lock, saver, borderglow, powermenu...)
 │   ├── swaylock/              # lock screen
+│   ├── subtui/                # Navidrome TUI player theme
 │   ├── swayosd/               # volume/brightness popups
-│   └── waybar/                # bar + scripts
+│   ├── waybar/                # bar + scripts
+│   └── yazi/                  # file manager theme
 ├── Pictures/wallpapers/       # labyrinth.jpg
 └── README.md
 ```
@@ -175,7 +177,9 @@ Default `$mod` key is set to **`Super`** (Windows key).
 | `$mod + d` | Open Application Launcher (`fuzzel`) |
 | `$mod + w` | Focus or Launch Browser (`firefox`) |
 | `$mod + Shift + w` | Launch Firefox (New Window) |
-| `$mod + n` | Open File Manager (`thunar`) |
+| `$mod + n` | Open File Manager (`yazi` in foot) |
+| `$mod + Shift + f` | Open GUI File Manager (`thunar`) |
+| `$mod + m` | Open/Focus Music Player (`subtui`, Navidrome) |
 | `$mod + p` | Open Audio Control (`pavucontrol`) |
 | `$mod + Shift + i` | Open System Information (`fastfetch`) |
 | `$mod + z` | Start Screen Saver (`saver.sh start`) |

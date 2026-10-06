@@ -1,0 +1,17 @@
+# LABYRINTH SubTUI config (Navidrome). Credentials live in credentials.toml, which is NOT tracked.
+# Anything not set here falls back to SubTUI's defaults.
+
+[app]
+replaygain = 'track'
+gapless_playback = 'yes'
+desktop_notifications = true
+discord_rich_presence = false
+mouse_support = false
+
+[theme]
+display_album_art = true
+# Format: ['Light Color', 'Dark Color']  (same palette for both)
+subtle    = ['#8f8a6e', '#8f8a6e']
+highlight = ['#6f9f8b', '#6f9f8b']
+special   = ['#d4cba8', '#d4cba8']
+filtered  = ['#1f3a31', '#4a5a52']

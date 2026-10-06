@@ -4,7 +4,7 @@ set $term foot
 set $menu fuzzel
 set $browser firefox
 set $browser_id firefox
-set $files thunar
+set $files foot yazi
 
 # palette (pulled from the painting)
 set $bg    #060b09
@@ -71,6 +71,8 @@ bindsym $mod+d exec $menu
 bindsym $mod+w exec ~/.config/sway/scripts/focusorlaunch.sh $browser_id $browser
 bindsym $mod+Shift+w exec $browser --new-window
 bindsym $mod+n exec $files
+bindsym $mod+Shift+f exec thunar
+bindsym $mod+m exec ~/.config/sway/scripts/focusorlaunch.sh music foot --app-id=music subtui
 bindsym $mod+p exec pavucontrol
 bindsym $mod+Shift+i exec foot --hold fastfetch
 bindsym $mod+z exec ~/.config/sway/scripts/saver.sh start
@@ -162,7 +164,7 @@ exec ~/.config/sway/scripts/borderglow.py
 exec foot --app-id=dropdown
 exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 exec swayidle -w timeout 180 '~/.config/sway/scripts/saver.sh start' resume '~/.config/sway/scripts/saver.sh stop' timeout 300 '~/.config/sway/scripts/lock.sh' timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' before-sleep '~/.config/sway/scripts/lock.sh'
-exec_always autotiling
+exec autotiling
 include /etc/sway/config.d/*
 
 # ---------- now playing ----------
@@ -172,8 +174,7 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym $mod+backslash exec playerctl play-pause
 bindsym $mod+bracketright exec playerctl next
 bindsym $mod+bracketleft exec playerctl previous
-for_window [app_id="^(?!foot|dropdown|mazesaver).*"] opacity 0.95
-for_window [class=".*"] opacity 0.95
+for_window [app_id="^(?!foot|dropdown|mazesaver|music).*"] opacity 0.95
 for_window [app_id="firefox"] opacity 0.9
 bindsym $mod+Shift+p exec ~/.config/sway/scripts/powermenu.sh
 
@@ -188,7 +189,6 @@ bindsym XF86MonBrightnessUp exec swayosd-client --brightness raise
 bindsym XF86MonBrightnessDown exec swayosd-client --brightness lower
 # RICE2-END
 seat seat0 xcursor_theme Hackneyed 24
-bindsym --release Super_L exec pkill fuzzel || fuzzel
 
 # per-machine settings (monitor mode, etc.) go in ~/.config/sway/local.d/*.conf, not tracked
 include ~/.config/sway/local.d/*

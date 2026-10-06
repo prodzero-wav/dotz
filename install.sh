@@ -62,6 +62,17 @@ ARCH_PACMAN_PKGS=(
   qt6-wayland
   dconf
   curl
+  autotiling
+  starship
+  zoxide
+  lsd
+  yazi
+  mpv
+  ffmpeg
+  fd
+  ripgrep
+  fzf
+  poppler
 )
 
 ARCH_AUR_PKGS=(
@@ -70,6 +81,7 @@ ARCH_AUR_PKGS=(
   swaylock-effects
   swayosd-git
   xcursor-hackneyed-light
+  subtui-git
 )
 
 # --- Helper Functions ---
@@ -127,6 +139,7 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     --backup-dir)
+      if [[ $# -lt 2 ]]; then error "--backup-dir needs a directory"; exit 1; fi
       CUSTOM_BACKUP_DIR="$2"
       shift 2
       ;;
@@ -213,7 +226,7 @@ if [[ "$SKIP_PKGS" == false ]]; then
         info "Installing AUR packages via $AUR_HELPER..."
         if pacman -Qq swaylock &>/dev/null && ! pacman -Qq swaylock-effects &>/dev/null; then
           info "Replacing swaylock with swaylock-effects..."
-          $SUDO_CMD pacman -Rdd --noconfirm swaylock || warn "Could not remove swaylock."
+          $SUDO_CMD pacman -R --noconfirm swaylock || warn "Could not remove swaylock (something depends on it). Remove it manually."
         fi
         for pkg in "${ARCH_AUR_PKGS[@]}"; do
           $AUR_HELPER -S --needed --noconfirm "$pkg" || warn "Could not install AUR package: $pkg"
@@ -246,7 +259,7 @@ fi
 TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 BACKUP_DIR="${CUSTOM_BACKUP_DIR:-$HOME/.config/labyrinth_backup_$TIMESTAMP}"
 CONFIG_TARGET_DIR="$HOME/.config"
-CONFIGS_TO_DEPLOY=(fastfetch foot fuzzel mako sway swaylock waybar gtk-3.0 gtk-4.0 swayosd fish labyrinth)
+CONFIGS_TO_DEPLOY=(fastfetch foot fuzzel mako sway swaylock waybar gtk-3.0 gtk-4.0 swayosd labyrinth yazi subtui)
 NEEDS_BACKUP=false
 
 for cfg in "${CONFIGS_TO_DEPLOY[@]}"; do
@@ -370,7 +383,7 @@ banner
 success "LABYRINTH installation complete!"
 echo ""
 echo -e "${BOLD}Installed components:${RESET}"
-echo "  - Configs deployed to: ~/.config/{fastfetch,foot,fuzzel,mako,sway,swaylock,waybar,gtk-3.0,gtk-4.0,swayosd,fish,labyrinth}"
+echo "  - Configs deployed to: ~/.config/{fastfetch,foot,fuzzel,mako,sway,swaylock,waybar,gtk-3.0,gtk-4.0,swayosd,labyrinth,yazi,subtui}"
 echo "  - Wallpapers copied to: ~/Pictures/wallpapers/"
 if [[ "$NEEDS_BACKUP" == true ]] && [[ "$DRY_RUN" == false ]]; then
   echo "  - Backup saved at: $BACKUP_DIR"
@@ -381,6 +394,8 @@ echo "  1. If you are not in a Wayland session, log out and select 'Sway' or lau
 echo "  2. Hotkey Reference:"
 echo "     - Mod (Super) + Enter : Open Foot terminal"
 echo "     - Mod (Super) + d     : Open Fuzzel launcher"
+echo "     - Mod (Super) + n     : Open yazi (file manager)"
+echo "     - Mod (Super) + m     : Open SubTUI (Navidrome player; log in on first run)"
 echo "     - Mod (Super) + w     : Open Firefox"
 echo "     - Mod (Super) + /     : View keybindings helper"
 echo "     - Mod (Super) + Esc   : Lock screen"

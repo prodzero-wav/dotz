@@ -25,8 +25,10 @@ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null
 mkdir -p "$HOME/.icons/default"
 printf '[Icon Theme]\nInherits=Hackneyed\n' > "$HOME/.icons/default/index.theme"
 
-# 3. Qt follows GTK (bash login shells; fish gets this from conf.d/labyrinth.fish)
+# 3. Qt follows GTK (bash login shells)
 touch "$HOME/.bash_profile"
+[ -f "$HOME/.bash_profile.labyrinth.bak" ] || cp "$HOME/.bash_profile" "$HOME/.bash_profile.labyrinth.bak"
+[ -f "$HOME/.bashrc" ] && { [ -f "$HOME/.bashrc.labyrinth.bak" ] || cp "$HOME/.bashrc" "$HOME/.bashrc.labyrinth.bak"; }
 sed -i '/LABYRINTH-BEGIN/,/LABYRINTH-END/d' "$HOME/.bash_profile"
 cat >> "$HOME/.bash_profile" << 'EOF'
 # LABYRINTH-BEGIN
