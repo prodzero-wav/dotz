@@ -29,6 +29,7 @@ fi
 NOCONFIRM=false
 SKIP_PKGS=false
 USE_SYMLINK=false
+INSTALL_BASHRC=false
 DRY_RUN=false
 CUSTOM_BACKUP_DIR=""
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -116,6 +117,7 @@ show_help() {
   echo "  -y, --noconfirm      Automatic yes to prompts; skip confirmation"
   echo "      --no-pkgs        Skip package manager dependency installation"
   echo "      --symlink        Symlink dotfiles instead of copying them"
+  echo "      --bashrc         Also install the repo .bashrc (existing one is backed up)"
   echo "      --backup-dir DIR Specify custom backup directory path"
   echo "      --dry-run        Simulate actions without making filesystem changes"
   echo "  -h, --help           Display this help message and exit"
@@ -136,6 +138,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --symlink)
       USE_SYMLINK=true
+      shift
+      ;;
+    --bashrc)
+      INSTALL_BASHRC=true
       shift
       ;;
     --backup-dir)
@@ -299,7 +305,7 @@ deploy_directory() {
   local src_dir="$1"
   local dest_dir="$2"
 
-  mkdir -p "$dest_dir"
+  [[ "$DRY_RUN" == true ]] || mkdir -p "$dest_dir"
 
   # Process all items in source directory
   find "$src_dir" -mindepth 1 -maxdepth 1 | while read -r item; do
@@ -338,6 +344,25 @@ deploy_directory() {
 
 deploy_directory "$SOURCE_DOT_CONFIG" "$CONFIG_TARGET_DIR"
 success "Dotfiles deployed successfully."
+
+# --- Deploy .bashrc (opt-in) ---
+if [[ "$INSTALL_BASHRC" == true ]]; then
+  if [[ "$DRY_RUN" == true ]]; then
+    info "[DRY-RUN] Would back up ~/.bashrc and install $REPO_DIR/dot_bashrc"
+  else
+    if [[ -f "$HOME/.bashrc" ]]; then
+      cp "$HOME/.bashrc" "$HOME/.bashrc.labyrinth_$TIMESTAMP.bak"
+      info "Backed up ~/.bashrc -> ~/.bashrc.labyrinth_$TIMESTAMP.bak"
+    fi
+    rm -f "$HOME/.bashrc"
+    if [[ "$USE_SYMLINK" == true ]]; then
+      ln -s "$REPO_DIR/dot_bashrc" "$HOME/.bashrc"
+    else
+      cp "$REPO_DIR/dot_bashrc" "$HOME/.bashrc"
+    fi
+    success ".bashrc installed (needs starship, zoxide, lsd)."
+  fi
+fi
 
 # --- Deploy Wallpapers ---
 WALLPAPER_SRC="$REPO_DIR/Pictures/wallpapers"

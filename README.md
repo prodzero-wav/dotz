@@ -45,6 +45,7 @@ chmod +x install.sh
 | `-y, --noconfirm` | Skip interactive prompts and automatically proceed. |
 | `--no-pkgs` | Skip package manager dependency installation. |
 | `--symlink` | Create symbolic links in `~/.config/` instead of copying files. |
+| `--bashrc` | Also install the repo `.bashrc` (aliases, `y` yazi wrapper, starship/zoxide). Your existing one is backed up first. |
 | `--backup-dir DIR` | Specify a custom path for backing up existing configurations. |
 | `--dry-run` | Simulate the installation without modifying files on disk. |
 | `-h, --help` | Display help and usage information. |
