@@ -1,0 +1,72 @@
+# Labyrinth Theme for btop
+
+# Main background (leave blank for terminal transparency, or use #060b09)
+theme[main_bg]="#060b09"
+
+# Main text color (Bone)
+theme[main_fg]="#d4cba8"
+
+# Title color for boxes (Teal)
+theme[title]="#6f9f8b"
+
+# Highlight color for keyboard shortcuts (Rust)
+theme[hi_fg]="#b5523b"
+
+# Background color of selected items (Green)
+theme[selected_bg]="#1f3a31"
+
+# Foreground color of selected items (Bone)
+theme[selected_fg]="#d4cba8"
+
+# Color of inactive/disabled text (Dim)
+theme[inactive_fg]="#8f8a6e"
+
+# Misc colors for processes box (Teal)
+theme[proc_misc]="#6f9f8b"
+
+# Box outline and divider line colors (Green)
+theme[cpu_box]="#1f3a31"
+theme[mem_box]="#1f3a31"
+theme[net_box]="#1f3a31"
+theme[proc_box]="#1f3a31"
+theme[div_line]="#1f3a31"
+
+# Temperature graph
+theme[temp_start]="#1f3a31"
+theme[temp_mid]="#6f9f8b"
+theme[temp_end]="#b5523b"
+
+# CPU graph
+theme[cpu_start]="#1f3a31"
+theme[cpu_mid]="#6f9f8b"
+theme[cpu_end]="#b5523b"
+
+# Memory free meter
+theme[free_start]="#1f3a31"
+theme[free_mid]="#6f9f8b"
+theme[free_end]="#d4cba8"
+
+# Memory cached meter
+theme[cached_start]="#1f3a31"
+theme[cached_mid]="#6f9f8b"
+theme[cached_end]="#8f8a6e"
+
+# Memory available meter
+theme[available_start]="#1f3a31"
+theme[available_mid]="#6f9f8b"
+theme[available_end]="#d4cba8"
+
+# Memory used meter
+theme[used_start]="#1f3a31"
+theme[used_mid]="#6f9f8b"
+theme[used_end]="#b5523b"
+
+# Download graph
+theme[download_start]="#1f3a31"
+theme[download_mid]="#6f9f8b"
+theme[download_end]="#d4cba8"
+
+# Upload graph
+theme[upload_start]="#1f3a31"
+theme[upload_mid]="#6f9f8b"
+theme[upload_end]="#b5523b"
