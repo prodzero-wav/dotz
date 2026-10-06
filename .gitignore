@@ -1,3 +1,5 @@
 *.bak
 *.fontbak
 *.orig
+__pycache__/
+*.pyc

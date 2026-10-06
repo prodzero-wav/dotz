@@ -34,7 +34,7 @@ goodbye()
 }
 
 md() {
-    mkdir -p "$1" && cd "$1"
+    mkdir -p "$1" && cd "$1" || return
 }
 
 up() {
@@ -47,6 +47,16 @@ up() {
 }
 
 eval "$(zoxide init bash)"
+
+# yazi: cd into the folder you were last in when you quit
+y() {
+    local tmp cwd
+    tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
+}
 
 i() {
     for pkg in "$@"; do

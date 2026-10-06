@@ -303,10 +303,12 @@ deploy_directory() {
 
   # Process all items in source directory
   find "$src_dir" -mindepth 1 -maxdepth 1 | while read -r item; do
-    local rel_name="$(basename "$item")"
+    local rel_name
+    rel_name="$(basename "$item")"
 
     # Strip executable_ prefix if present
-    local clean_name="${rel_name#executable_}"
+    local clean_name
+    clean_name="${rel_name#executable_}"
     clean_name="${clean_name%.tmpl}"
     local target_item="$dest_dir/$clean_name"
 
