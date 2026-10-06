@@ -1,8 +1,11 @@
 # LABYRINTH lock
-image=~/Pictures/wallpapers/labyrinth.jpg
+image=~/.cache/labyrinth/lock-base.png
 scaling=fill
 color=060b09
 
+clock
+timestr=%H:%M
+datestr=%^A %d %^B
 
 font=UnifontExMono
 font-size=24

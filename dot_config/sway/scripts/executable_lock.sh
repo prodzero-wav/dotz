@@ -2,11 +2,9 @@
 # Usage: lock.sh          lock the screen
 #        lock.sh prepare  (re)build the cached background if needed
 WALL="$HOME/Pictures/wallpapers/labyrinth.jpg"
-FONT="$HOME/.local/share/fonts/UnifontExMono.ttf"
 CACHE="$HOME/.cache/labyrinth"
 BASE="$CACHE/lock-base.png"
 SIZEF="$CACHE/lock-base.size"
-OUT="${XDG_RUNTIME_DIR:-/tmp}/lockscreen.png"
 IM=magick
 command -v magick >/dev/null 2>&1 || IM=convert
 mkdir -p "$CACHE"
@@ -34,13 +32,7 @@ fi
 pgrep -x swaylock >/dev/null && exit 0
 [ -f "$BASE" ] || prepare
 
-if [ -f "$BASE" ] && [ -f "$SIZEF" ] && [ -f "$FONT" ]; then
-  read -r W H < <(tr 'x' ' ' < "$SIZEF")
-  S=$((H / 1080)); [ "$S" -lt 1 ] && S=1
-  $IM "$BASE" -stroke none -font "$FONT" -fill '#efe8cc' -gravity center \
-    -pointsize $((160 * S)) -annotate +0-$((290 * S)) "$(date +%H:%M)" \
-    -fill '#6f9f8b' -pointsize $((32 * S)) \
-    -annotate +0-$((190 * S)) "$(date '+%A %d %B' | tr '[:lower:]' '[:upper:]')" \
-    "$OUT" && exec swaylock -f -i "$OUT"
+if [ -f "$BASE" ]; then
+  exec swaylock -f -i "$BASE"
 fi
 exec swaylock -f
