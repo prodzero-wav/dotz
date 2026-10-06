@@ -1,0 +1,64 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+palette = "labyrinth"
+
+format = """
+[┌───](bold dim) $username$hostname [::](bold dim) $directory$git_branch$git_status $fill $cmd_duration$status
+[└───](bold dim) $character"""
+
+add_newline = true
+
+[fill]
+symbol = " "
+
+[username]
+show_always = true
+style_user = "bold bone"
+style_root = "bold rust"
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = true
+style = "bold dim"
+format = "[@$hostname]($style)"
+
+[directory]
+style = "bold teal"
+read_only = " 🔒"
+read_only_style = "rust"
+truncation_length = 3
+truncation_symbol = "…/"
+format = "[$path]($style)[$read_only]($read_only_style)"
+
+[git_branch]
+symbol = "󰘬 "
+style = "bold teal"
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+style = "bold rust"
+format = "([$all_status$ahead_behind]($style)) "
+
+[cmd_duration]
+min_time = 2_000
+style = "bold dim"
+format = "took [$duration]($style) "
+
+[status]
+disabled = false
+style = "bold rust"
+symbol = "✘ "
+format = "[$symbol$common_meaning$signal_number$maybe_int]($style)"
+
+[character]
+success_symbol = "[λ](bold teal)"
+error_symbol = "[λ](bold rust)"
+vimcmd_symbol = "[λ](bold bone)"
+
+[palettes.labyrinth]
+bg = "#060b09"
+green = "#1f3a31"
+teal = "#6f9f8b"
+bone = "#d4cba8"
+rust = "#b5523b"
+dim = "#8f8a6e"
