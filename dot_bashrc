@@ -1,0 +1,72 @@
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+eval "$(starship init bash)"
+
+# Basic Aliases & Functions
+alias ls='lsd'
+alias grep='grep --color=auto'
+alias clr='clear'
+alias x='exit'
+alias shutdown='sudo shutdown'
+
+fuckyou()
+{
+	echo "Ask politely next time!"
+	sudo $(fc -ln -1)
+}
+
+goodnight()
+{
+	echo "Goodnight, $USER!"
+	sleep 3
+	sudo systemctl suspend
+}
+
+goodbye()
+{
+	echo "Goodbye for now, $USER!"
+	sleep 3
+	sudo shutdown now
+}
+
+md() {
+    mkdir -p "$1" && cd "$1"
+}
+
+up() {
+    local d=""
+    local limit="${1:-1}"
+    for ((i=1; i <= limit; i++)); do
+        d="../$d"
+    done
+    cd "$d" || return
+}
+
+eval "$(zoxide init bash)"
+
+i() {
+    for pkg in "$@"; do
+        if pacman -Si "$pkg" &>/dev/null; then
+            sudo pacman -S --noconfirm "$pkg"
+        else
+          paru -S --noconfirm "$pkg"
+        fi
+    done
+}
+
+update()
+{ 
+    paru -Syu --noconfirm
+}
+
+export EDITOR="nano"
+export VISUAL="nano"
+
+PS1="\[\e[38;2;111;159;139m\]\u\[\e[0m\] \[\e[38;2;212;203;168m\]\w\[\e[0m\] ▸ "
+
+# LABYRINTH-PROMPT
+[ -f "$HOME/.config/labyrinth/prompt.bash" ] && source "$HOME/.config/labyrinth/prompt.bash"
