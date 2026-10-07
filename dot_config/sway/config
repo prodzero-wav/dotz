@@ -192,3 +192,6 @@ seat seat0 xcursor_theme Hackneyed 24
 
 # per-machine settings (monitor mode, etc.) go in ~/.config/sway/local.d/*.conf, not tracked
 include ~/.config/sway/local.d/*
+
+bindsym Ctrl+Alt+Delete exec ~/.config/sway/scripts/powermenu.sh
+bindsym --release Super_L exec $menu
