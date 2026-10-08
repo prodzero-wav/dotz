@@ -261,7 +261,7 @@ fi
 TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 BACKUP_DIR="${CUSTOM_BACKUP_DIR:-$HOME/.config/labyrinth_backup_$TIMESTAMP}"
 CONFIG_TARGET_DIR="$HOME/.config"
-CONFIGS_TO_DEPLOY=(fastfetch foot fuzzel mako sway swaylock waybar gtk-3.0 gtk-4.0 swayosd labyrinth yazi subtui)
+CONFIGS_TO_DEPLOY=(fastfetch foot fuzzel mako sway swaylock waybar gtk-3.0 gtk-4.0 swayosd labyrinth yazi subtui btop cava)
 NEEDS_BACKUP=false
 
 for cfg in "${CONFIGS_TO_DEPLOY[@]}"; do
@@ -311,6 +311,7 @@ deploy_directory() {
     # Strip executable_ prefix if present
     local clean_name
     clean_name="${rel_name#executable_}"
+    clean_name="${clean_name#private_}"
     clean_name="${clean_name%.tmpl}"
     local target_item="$dest_dir/$clean_name"
 

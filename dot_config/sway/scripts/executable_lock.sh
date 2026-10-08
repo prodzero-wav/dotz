@@ -34,4 +34,4 @@ fi
 pgrep -x swaylock-plugin >/dev/null && exit 0
 [ -f "$BASE" ] || prepare
 
-exec swaylock-plugin --command "$HOME/.config/sway/scripts/lockbg.sh"
+exec swaylock-plugin -f --command "$HOME/.config/sway/scripts/lockbg.sh"
