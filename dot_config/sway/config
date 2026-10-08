@@ -195,3 +195,4 @@ include ~/.config/sway/local.d/*
 
 bindsym Ctrl+Alt+Delete exec ~/.config/sway/scripts/powermenu.sh
 bindsym --release Super_L exec $menu
+bindsym $mod+Shift+F23 exec ~/.config/sway/scripts/profilecycle.sh
