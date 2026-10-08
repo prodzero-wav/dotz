@@ -1,6 +1,6 @@
 # LABYRINTH: SwayFX Dotfiles
 
-A custom, atmospheric Wayland desktop environment built around **SwayFX** (a feature-rich fork of Sway with blur, shadows, and window effects), **Foot** terminal emulator, **Waybar**, **Fuzzel**, **Mako**, and **Swaylock**.
+A custom, atmospheric Wayland desktop environment built around **SwayFX** (a feature-rich fork of Sway with blur, shadows, and window effects), **Foot** terminal emulator, **Waybar**, **Fuzzel**, **Mako**, and **swaylock-plugin**.
 
 The theme features a muted, dark earthy palette ("pulled from the painting") with deep forest greens, dark teal accents, bone white text, and warm rust accents.
 
@@ -117,7 +117,7 @@ If you prefer to deploy files manually or are running a non-Arch distribution:
 ### AUR Packages
 
 - `swayfx` (needs `scenefx0.5`; falls back to `swayfx-git`)
-- `swaylock-effects` (the lock config needs it; plain `swaylock` will not work)
+- `swaylock-plugin` (the lockscreen needs it: `lock.sh` runs `lockbg.sh` as the background so the time updates live; plain `swaylock` and `swaylock-effects` will not work)
 - `swayosd-git` (volume/brightness popups)
 - `xcursor-hackneyed-light` (cursor theme, optional)
 - `subtui-git` (Navidrome TUI player; run it once and log in, credentials are stored locally and never tracked)
@@ -151,6 +151,8 @@ Default `$mod` key is set to **`Super`** (Windows key).
 | `$mod + q` | Close Focused Window |
 | `$mod + Shift + c` | Reload Sway Configuration |
 | `$mod + Escape` | Lock Screen (`lock.sh`) |
+| `Super` (tap) | Open Application Launcher (`fuzzel`) |
+| `Ctrl + Alt + Delete` | Power Menu (`powermenu.sh`) |
 | `$mod + Shift + e` | Exit Sway Prompt |
 | `$mod + Shift + p` | Power Menu (`powermenu.sh`) |
 | `$mod + Shift + n` | Dismiss Notifications (`makoctl dismiss -a`) |

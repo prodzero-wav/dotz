@@ -79,7 +79,7 @@ ARCH_PACMAN_PKGS=(
 ARCH_AUR_PKGS=(
   scenefx0.5
   swayfx
-  swaylock-effects
+  swaylock-plugin
   swayosd-git
   xcursor-hackneyed-light
   subtui-git
@@ -230,10 +230,6 @@ if [[ "$SKIP_PKGS" == false ]]; then
 
       if [[ -n "$AUR_HELPER" ]]; then
         info "Installing AUR packages via $AUR_HELPER..."
-        if pacman -Qq swaylock &>/dev/null && ! pacman -Qq swaylock-effects &>/dev/null; then
-          info "Replacing swaylock with swaylock-effects..."
-          $SUDO_CMD pacman -R --noconfirm swaylock || warn "Could not remove swaylock (something depends on it). Remove it manually."
-        fi
         for pkg in "${ARCH_AUR_PKGS[@]}"; do
           $AUR_HELPER -S --needed --noconfirm "$pkg" || warn "Could not install AUR package: $pkg"
         done
@@ -242,7 +238,7 @@ if [[ "$SKIP_PKGS" == false ]]; then
           $AUR_HELPER -S --needed --noconfirm swayfx-git || warn "Could not install swayfx-git either. Install swayfx manually."
         fi
       else
-        warn "No AUR helper (yay/paru) detected. Please install swayfx, swaylock-effects and swayosd from the AUR manually."
+        warn "No AUR helper (yay/paru) detected. Please install swayfx, swaylock-plugin and swayosd from the AUR manually."
       fi
     fi
   else
@@ -253,7 +249,7 @@ if [[ "$SKIP_PKGS" == false ]]; then
     echo "  - Terminal: foot"
     echo "  - Launcher: fuzzel"
     echo "  - Bar & Notifications: waybar, mako"
-    echo "  - Lock & Idle: swaylock / swaylock-effects, swayidle"
+    echo "  - Lock & Idle: swaylock-plugin, swayidle"
     echo "  - Utilities: swayosd, playerctl, pavucontrol, fastfetch, grim, slurp, wl-clipboard, thunar, firefox, imagemagick, unifont font"
     echo ""
   fi
