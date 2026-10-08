@@ -2,11 +2,9 @@
 # Usage: lock.sh          lock the screen
 #        lock.sh prepare  (re)build the cached background if needed
 WALL="$HOME/Pictures/wallpapers/labyrinth.jpg"
-FONT="$HOME/.local/share/fonts/UnifontExMono.ttf"
 CACHE="$HOME/.cache/labyrinth"
 BASE="$CACHE/lock-base.png"
 SIZEF="$CACHE/lock-base.size"
-OUT="${XDG_RUNTIME_DIR:-/tmp}/lockscreen.png"
 IM=magick
 command -v magick >/dev/null 2>&1 || IM=convert
 mkdir -p "$CACHE"

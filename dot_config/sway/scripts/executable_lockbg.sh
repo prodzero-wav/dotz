@@ -6,9 +6,9 @@ RT="${XDG_RUNTIME_DIR:-/tmp}/lockbg"; mkdir -p "$RT"
 IM=magick; command -v magick >/dev/null 2>&1 || IM=convert
 
 render() {  # $1 = "now" or "+1 minute"; prints image path
-  local out="$RT/$(date -d "$1" +%H%M).png"
+  local out; out="$RT/$(date -d "$1" +%H%M).png"
   [ -f "$out" ] && { echo "$out"; return; }
-  read -r W H < <(tr 'x' ' ' < "$SIZEF"); local S=$((H / 1080)); [ "$S" -lt 1 ] && S=1
+  read -r _ H < <(tr 'x' ' ' < "$SIZEF"); local S=$((H / 1080)); [ "$S" -lt 1 ] && S=1
   $IM "$BASE" -stroke none -font "$FONT" -fill '#efe8cc' -gravity center \
     -pointsize $((160 * S)) -annotate +0-$((290 * S)) "$(date -d "$1" +%H:%M)" \
     -fill '#6f9f8b' -pointsize $((32 * S)) \
