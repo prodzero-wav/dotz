@@ -7,7 +7,6 @@ color=060b09
 font=UnifontExMono
 font-size=24
 
-indicator
 indicator-idle-visible
 indicator-radius=100
 indicator-thickness=3
@@ -44,3 +43,4 @@ text-clear-color=8f8a6e
 text-caps-lock-color=c9b97a
 text-ver-color=6f9f8b
 text-wrong-color=b5523b
+

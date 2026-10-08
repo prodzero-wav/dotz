@@ -31,16 +31,7 @@ if [ "$1" = "prepare" ]; then
   exit 0
 fi
 
-pgrep -x swaylock >/dev/null && exit 0
+pgrep -x swaylock-plugin >/dev/null && exit 0
 [ -f "$BASE" ] || prepare
 
-if [ -f "$BASE" ] && [ -f "$SIZEF" ] && [ -f "$FONT" ]; then
-  read -r W H < <(tr 'x' ' ' < "$SIZEF")
-  S=$((H / 1080)); [ "$S" -lt 1 ] && S=1
-  $IM "$BASE" -stroke none -font "$FONT" -fill '#efe8cc' -gravity center \
-    -pointsize $((160 * S)) -annotate +0-$((290 * S)) "$(date +%H:%M)" \
-    -fill '#6f9f8b' -pointsize $((32 * S)) \
-    -annotate +0-$((190 * S)) "$(date '+%A %d %B' | tr '[:lower:]' '[:upper:]')" \
-    "$OUT" && exec swaylock -f -i "$OUT"
-fi
-exec swaylock -f
+exec swaylock-plugin --command "$HOME/.config/sway/scripts/lockbg.sh"
