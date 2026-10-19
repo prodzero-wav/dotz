@@ -19,8 +19,8 @@ for line in open(mapfile):
     p = line.split()
     if len(p) == 2 and re.fullmatch(r"[0-9a-fA-F]{6}", p[0]) and re.fullmatch(r"[0-9a-fA-F]{6}", p[1]):
         pairs[p[0].lower()] = p[1].lower()
-    elif len(p) == 3 and p[0] == "wallpaper" and p[1] == "solid":
-        wall = p[2]
+    elif len(p) == 3 and p[0] == "wallpaper" and p[1] in ("solid", "image"):
+        wall = (p[1], p[2])
 
 hex_re = re.compile(r"(?<![0-9a-fA-F])(" + "|".join(pairs) + r")(?=(?:[0-9a-fA-F]{2})?(?![0-9a-fA-F]))", re.I) if pairs else None
 rgb = {}
@@ -39,13 +39,17 @@ def convert(text):
         return m.group(2).join(map(str, rgb.get(t, t)))
     return rgb_re.sub(r, text)
 
-# solid wallpaper -> png used by sway and the lock screen
+# wallpaper: solid colour (made into a png) or an image; used by sway and the lock screen
 wallpng = None
 if wall:
-    os.makedirs(CACHE, exist_ok=True)
-    wallpng = os.path.join(CACHE, f"wall-{name}.png")
-    im = "magick" if subprocess.run(["which", "magick"], capture_output=True).returncode == 0 else "convert"
-    subprocess.run([im, "-size", "1920x1080", f"xc:{wall}", wallpng], check=True)
+    kind, val = wall
+    if kind == "image":
+        wallpng = os.path.expanduser(val)
+    else:
+        os.makedirs(CACHE, exist_ok=True)
+        wallpng = os.path.join(CACHE, f"wall-{name}.png")
+        im = "magick" if subprocess.run(["which", "magick"], capture_output=True).returncode == 0 else "convert"
+        subprocess.run([im, "-size", "1920x1080", f"xc:{val}", wallpng], check=True)
 
 def render(path):
     try:

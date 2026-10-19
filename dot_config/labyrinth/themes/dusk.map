@@ -1,0 +1,35 @@
+# DUSK: palette pulled from the estuary sunset photo (Pictures/wallpapers/dusk.jpg).
+# Format: <labyrinth hex> <new hex>. Alpha suffixes are preserved.
+
+# backgrounds (silhouette black)
+060b09 07070b
+0b1411 0b0c12
+0d1814 10121a
+# selection / inactive borders (shadowed sky)
+1f3a31 26303b
+2a3a33 313b47
+4a5a52 4c5864
+6c6a55 6a7a82
+# text: dim (haze), normal (peach), bright (cream)
+8f8a6e 8e9a97
+d4cba8 f0d4b4
+efe8cc fff0dc
+# accent (horizon orange) and its brights
+6f9f8b f0955a
+8fc0aa ffb27a
+# cyan / blue (sky)
+7fb09a 9db6c2
+9fd0ba bcd0da
+5f8a9a 6d8fb0
+7aa8b8 8fb0cc
+# magenta (cloud violet)
+8f7a9a b0708f
+aa94b5 cf8fae
+# danger (cloud red, neon)
+b5523b ff3355
+d06a50 ff5c77
+# warning (amber)
+c9b97a e8b86b
+e0d08f f5d38a
+
+wallpaper image ~/Pictures/wallpapers/dusk.jpg

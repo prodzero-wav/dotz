@@ -19,9 +19,9 @@ efe8cc ffffff
 8fc0aa ffffff
 7fb09a d9d0b8
 9fd0ba ece3cb
-# danger (rust) -> white, loudest colour available
-b5523b ffffff
-d06a50 ffffff
+# danger (rust) -> neon red, the only saturated colour
+b5523b ff0a3a
+d06a50 ff3d5c
 # warning (gold)
 c9b97a e8dcb8
 e0d08f f3ead3

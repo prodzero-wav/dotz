@@ -1,0 +1,35 @@
+# EMBER: palette pulled from the horizon-glow photo (Pictures/wallpapers/ember.jpg).
+# Format: <labyrinth hex> <new hex>. Alpha suffixes are preserved.
+
+# backgrounds (ground black, teal-tinted)
+060b09 080b0d
+0b1411 0c1114
+0d1814 111619
+# selection / inactive borders (dark teal sky)
+1f3a31 1b2f36
+2a3a33 25383f
+4a5a52 3f565d
+6c6a55 5e757b
+# text: dim (teal haze), normal (glow peach), bright (cream)
+8f8a6e 8c9a98
+d4cba8 f0cfa4
+efe8cc fff1d9
+# accent (ember orange) and its brights
+6f9f8b ff8a1f
+8fc0aa ffad4d
+# cyan / blue (upper sky)
+7fb09a 5fa3a8
+9fd0ba 86c2c4
+5f8a9a 4f7f94
+7aa8b8 6f9fb4
+# magenta (rusted glow)
+8f7a9a b36a5e
+aa94b5 d08a78
+# danger (neon red)
+b5523b ff2a3a
+d06a50 ff5560
+# warning (amber)
+c9b97a ffc44d
+e0d08f ffd98a
+
+wallpaper image ~/Pictures/wallpapers/ember.jpg
