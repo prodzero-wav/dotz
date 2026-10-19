@@ -52,15 +52,15 @@ window#waybar {
 #window { padding: 0 14px; color: #6f9f8b; }
 #clock { padding: 0 18px; color: #efe8cc; text-shadow: 0 0 12px rgba(212, 203, 168, 0.6); }
 
-#custom-lost, #cpu, #memory, #pulseaudio, #network, #tray, #custom-power {
+#custom-lost, #cpu, #memory, #pulseaudio, #bluetooth, #network, #tray, #custom-power {
   padding: 0 12px;
   color: #8f8a6e;
 }
 #custom-lost { color: #6f9f8b; text-shadow: 0 0 8px rgba(111, 159, 139, 0.7); }
 #custom-power { color: #b5523b; }
 #custom-power:hover { color: #d06a50; text-shadow: 0 0 10px rgba(208, 106, 80, 0.9); }
-#cpu:hover, #memory:hover, #pulseaudio:hover, #network:hover { color: #d4cba8; }
-#pulseaudio.muted, #network.disconnected { color: #b5523b; }
+#cpu:hover, #memory:hover, #pulseaudio:hover, #bluetooth:hover, #network:hover { color: #d4cba8; }
+#pulseaudio.muted, #bluetooth.off, #bluetooth.disabled, #network.disconnected { color: #b5523b; }
 
 tooltip { background: #060b09; border: 1px solid #6f9f8b; }
 tooltip label { color: #d4cba8; }

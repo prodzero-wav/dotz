@@ -21,6 +21,7 @@
     "power-profiles-daemon",
     "battery",
     "pulseaudio",
+    "bluetooth",
     "network",
     "tray",
     "custom/power"
@@ -82,7 +83,18 @@
     "format-wifi": "\uf1eb {essid}",
     "format-ethernet": "󰈀 wired",
     "format-disconnected": "\uf071 offline",
-    "tooltip-format": "{ipaddr}"
+    "tooltip-format": "{ipaddr}",
+    "on-click": "sleep 0.2; ~/.config/sway/scripts/netmenu.sh"
+  },
+  "bluetooth": {
+    "format": "\uf293",
+    "format-disabled": "\uf294",
+    "format-off": "\uf294",
+    "format-connected": "\uf293 {num_connections}",
+    "tooltip-format": "{controller_alias}\n{num_connections} connected",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "on-click": "sleep 0.2; ~/.config/sway/scripts/btmenu.sh"
   },
   "tray": {
     "spacing": 10

@@ -6,6 +6,12 @@ The theme features a muted, dark earthy palette ("pulled from the painting") wit
 
 ---
 
+## Themes
+
+`$mod+Ctrl+t` opens the theme selector (or run `~/.config/sway/scripts/theme.sh <name>`). Themes are palette maps in `~/.config/labyrinth/themes/*.map`; the selector re-renders every chezmoi-managed config from its canonical LABYRINTH colours, so switching is lossless. Bundled: `labyrinth` and `mono` (black / white / cream, high contrast).
+
+After a `chezmoi apply` reverts files to LABYRINTH, run `theme.sh reapply`. To add a theme, copy `mono.map` and change the right-hand hex values. Firefox's theme (`extras/firefox-theme.sh`) is not covered.
+
 ## 🎨 Screenshots
 
 <img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/d23e545a-431b-448b-a054-5de2826c91fc" />

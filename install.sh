@@ -57,6 +57,10 @@ ARCH_PACMAN_PKGS=(
   gsettings-desktop-schemas
   glib2
   power-profiles-daemon
+  networkmanager
+  bluez
+  bluez-utils
+  libnotify
   adw-gtk-theme
   papirus-icon-theme
   qt5-wayland

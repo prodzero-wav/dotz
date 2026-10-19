@@ -177,6 +177,8 @@ bindsym $mod+bracketleft exec playerctl previous
 for_window [app_id="^(?!foot|dropdown|mazesaver|music).*"] opacity 0.95
 for_window [app_id="firefox"] opacity 0.9
 bindsym $mod+Shift+p exec ~/.config/sway/scripts/powermenu.sh
+bindsym $mod+Ctrl+n exec ~/.config/sway/scripts/netmenu.sh
+bindsym $mod+Ctrl+b exec ~/.config/sway/scripts/btmenu.sh
 
 # RICE2-BEGIN
 animation_duration_ms 200
@@ -196,3 +198,4 @@ include ~/.config/sway/local.d/*
 bindsym Ctrl+Alt+Delete exec ~/.config/sway/scripts/powermenu.sh
 bindsym --release Super_L exec $menu
 bindsym $mod+Shift+F23 exec ~/.config/sway/scripts/profilecycle.sh
+bindsym $mod+Ctrl+t exec ~/.config/sway/scripts/theme.sh
