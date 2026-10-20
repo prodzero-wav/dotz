@@ -85,6 +85,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Escape exec ~/.config/sway/scripts/lock.sh
 bindsym $mod+Shift+e exec swaynag -t warning -m 'Leave the maze?' -B 'Exit' 'swaymsg exit'
 bindsym $mod+Shift+n exec makoctl dismiss -a
+bindsym $mod+Shift+m exec ~/.config/sway/scripts/sfx.sh toggle
 
 # ---------- focus / move ----------
 floating_modifier $mod normal
@@ -158,6 +159,7 @@ bar {
     swaybar_command waybar
 }
 exec mako
+exec ~/.config/sway/scripts/sfx.sh startup
 exec ~/.config/sway/scripts/powermode.sh
 exec ~/.config/sway/scripts/lock.sh prepare
 exec ~/.config/sway/scripts/borderglow.py

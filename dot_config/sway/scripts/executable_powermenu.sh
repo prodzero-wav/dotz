@@ -4,6 +4,6 @@ case "$choice" in
   Lock) ~/.config/sway/scripts/lock.sh ;;
   Suspend) systemctl suspend ;;
   "Log out") swaymsg exit ;;
-  Reboot) systemctl reboot ;;
-  Shutdown) systemctl poweroff ;;
+  Reboot) ~/.config/sway/scripts/sfx.sh shutdown --wait; systemctl reboot ;;
+  Shutdown) ~/.config/sway/scripts/sfx.sh shutdown --wait; systemctl poweroff ;;
 esac
