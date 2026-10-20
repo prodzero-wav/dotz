@@ -22,4 +22,4 @@ makoctl reload 2>/dev/null
 pkill -f borderglow.py; setsid -f "$S/borderglow.py" >/dev/null 2>&1
 pkill swayosd-server; setsid -f swayosd-server >/dev/null 2>&1
 setsid -f "$S/lock.sh" prepare >/dev/null 2>&1
-notify-send "Theme" "$pick applied. New terminals/apps pick it up."
+notify-send "Theme" "$pick applied. New terminals/apps pick it up; restart Firefox."

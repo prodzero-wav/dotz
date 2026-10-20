@@ -2,7 +2,7 @@
 """Render a theme: take each chezmoi-managed file under ~/.config as chezmoi
 would write it (canonical LABYRINTH colours), remap the palette, write it live.
 Usage: theme-apply.py <theme>"""
-import os, re, subprocess, sys
+import glob, os, re, subprocess, sys
 from concurrent.futures import ThreadPoolExecutor
 
 HOME = os.path.expanduser("~")
@@ -28,15 +28,17 @@ for o, n in pairs.items():
     ot = tuple(int(o[i:i+2], 16) for i in (0, 2, 4))
     nt = tuple(int(n[i:i+2], 16) for i in (0, 2, 4))
     rgb[ot] = nt
-rgb_re = re.compile(r"(?<![\d.])(\d{1,3})(\s*,\s*)(\d{1,3})\2(\d{1,3})(?![\d])") if pairs else None
+trip = "|".join(r"%d\s*[,;]\s*%d\s*[,;]\s*%d" % t for t in rgb)
+rgb_re = re.compile(r"(?<![\d.])(?:%s)(?!\d)" % trip) if pairs else None
 
 def convert(text):
     if not pairs:
         return text
     text = hex_re.sub(lambda m: pairs[m.group(1).lower()], text)
     def r(m):
-        t = (int(m.group(1)), int(m.group(3)), int(m.group(4)))
-        return m.group(2).join(map(str, rgb.get(t, t)))
+        nums = tuple(map(int, re.findall(r"\d+", m.group(0))))
+        sep = re.search(r"\s*[,;]\s*", m.group(0)).group(0)
+        return sep.join(map(str, rgb[nums]))
     return rgb_re.sub(r, text)
 
 # wallpaper: solid colour (made into a png) or an image; used by sway and the lock screen
@@ -86,5 +88,25 @@ with ThreadPoolExecutor(8) as ex:
         except UnicodeDecodeError:
             pass
 
+def firefox():
+    """Firefox chrome CSS lives in the profile, not ~/.config: regenerate it from extras/firefox-theme.sh."""
+    try:
+        srcdir = subprocess.run(["chezmoi", "source-path"], capture_output=True, text=True, check=True).stdout.strip()
+        text = open(os.path.join(srcdir, "extras", "firefox-theme.sh")).read()
+    except Exception:
+        return 0
+    files = dict(re.findall(r"cat > \"\$p/chrome/(userChrome\.css|userContent\.css)\" << 'EOF'\n(.*?)\nEOF\n", text, re.S))
+    n = 0
+    for base in (os.path.join(HOME, ".mozilla", "firefox"), os.path.join(CFG, "mozilla", "firefox")):
+        for p in glob.glob(base + "/*.default-release") + glob.glob(base + "/*.default"):
+            os.makedirs(os.path.join(p, "chrome"), exist_ok=True)
+            for fn, css in files.items():
+                path, out = os.path.join(p, "chrome", fn), convert(css) + "\n"
+                if not os.path.isfile(path) or open(path).read() != out:
+                    open(path, "w").write(out)
+                    n += 1
+    return n
+
+ff = firefox()
 open(os.path.join(CFG, "labyrinth", "current-theme"), "w").write(name + "\n")
-print(f"{name}: {changed} files updated")
+print(f"{name}: {changed} files updated" + (f", {ff} firefox files" if ff else ""))
