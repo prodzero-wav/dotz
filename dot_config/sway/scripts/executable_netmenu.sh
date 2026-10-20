@@ -5,7 +5,7 @@ F=(fuzzel --dmenu -w 44)
 wifi=$(nmcli -t -f WIFI radio)
 if [[ "$wifi" != enabled ]]; then
   c=$(printf 'Turn Wi-Fi on\n' | "${F[@]}" -p '󰖪 ' -l 1)
-  [[ "$c" == "Turn Wi-Fi on" ]] && nmcli radio wifi on
+  [[ "$c" == "Turn Wi-Fi on" ]] && { nmcli radio wifi on || notify-send -u critical "Wi-Fi" "Couldn't turn on"; }
   exit 0
 fi
 

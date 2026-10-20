@@ -4,6 +4,8 @@
 #   sfx.sh toggle|mute|unmute|status                 control the mute flag
 DIR="$HOME/.config/labyrinth/sounds"
 FLAG="${XDG_STATE_HOME:-$HOME/.local/state}/labyrinth/sfx-muted"
+# Stream volume relative to the device volume (0.0-1.0). Plays at VOL x system volume.
+VOL="${SFX_VOLUME:-0.7}"
 
 case "$1" in
   toggle) [[ -e "$FLAG" ]] && exec "$0" unmute || exec "$0" mute ;;
@@ -16,8 +18,8 @@ esac
 file="$DIR/$1.wav"
 [[ -f "$file" ]] || exit 1
 
-if command -v pw-play >/dev/null; then player=(pw-play)
-elif command -v paplay >/dev/null; then player=(paplay)
+if command -v pw-play >/dev/null; then player=(pw-play --volume="$VOL")
+elif command -v paplay >/dev/null; then player=(paplay --volume="$(awk -v v="$VOL" 'BEGIN{printf "%d", v*65536}')")
 else exit 1; fi
 
 if [[ "$2" == "--wait" ]]; then

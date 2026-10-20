@@ -4,7 +4,7 @@ F=(fuzzel --dmenu -w 44)
 
 if ! bluetoothctl show 2>/dev/null | grep -q "Powered: yes"; then
   c=$(printf 'Turn Bluetooth on\n' | "${F[@]}" -p '󰂲 ' -l 1) || exit 0
-  [[ "$c" == "Turn Bluetooth on" ]] && { rfkill unblock bluetooth; bluetoothctl power on >/dev/null; }
+  [[ "$c" == "Turn Bluetooth on" ]] && { rfkill unblock bluetooth; bluetoothctl power on >/dev/null || notify-send -u critical "Bluetooth" "Couldn't turn on"; }
   exit 0
 fi
 
@@ -37,7 +37,7 @@ case "$choice" in
     if bluetoothctl info "$mac" | grep -q "Connected: yes"; then
       bluetoothctl disconnect "$mac" >/dev/null && notify-send "Bluetooth" "Disconnected $name"
     else
-      bluetoothctl info "$mac" | grep -q "Paired: yes" || { bluetoothctl pair "$mac" >/dev/null; bluetoothctl trust "$mac" >/dev/null; }
+      bluetoothctl info "$mac" | grep -q "Paired: yes" || { bluetoothctl pair "$mac" >/dev/null || { notify-send -u critical "Bluetooth" "Pairing failed: $name"; exit 1; }; bluetoothctl trust "$mac" >/dev/null; }
       if bluetoothctl connect "$mac" >/dev/null 2>&1; then notify-send "Bluetooth" "Connected to $name"
       else notify-send -u critical "Bluetooth" "Failed to connect to $name"; fi
     fi
