@@ -62,7 +62,7 @@ shadow_inactive_color #000000cc
 default_dim_inactive 0.15
 dim_inactive_colors.unfocused #000000ff
 
-layer_effects "waybar" blur enable; blur_ignore_transparent enable; shadows enable
+layer_effects "waybar" blur enable; blur_ignore_transparent disable; shadows disable; corner_radius 14
 layer_effects "launcher" blur enable; blur_ignore_transparent enable; shadows enable; corner_radius 16
 layer_effects "notifications" blur enable; blur_ignore_transparent enable; shadows disable
 
