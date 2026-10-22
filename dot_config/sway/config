@@ -29,40 +29,41 @@ input type:touchpad {
 }
 
 # ---------- look ----------
-default_border pixel 2
-default_floating_border pixel 2
+default_border pixel 1
+default_floating_border pixel 1
 hide_edge_borders smart
 gaps inner 14
 gaps outer 6
 
-client.focused          $bone  $bg $bone $bone  $bone
-client.focused_inactive $green $bg $dim  $green $green
-client.unfocused        $green $bg $dim  $green $green
+client.focused          $bone99  $bg66 $bone $bone99  $bone99
+client.focused_inactive $bone33  $bg66 $dim  $bone33  $bone33
+client.unfocused        $bone22  $bg66 $dim  $bone22  $bone22
 client.urgent           $rust  $bg $rust $rust  $rust
 client.background       $bg
 
 # ---------- SwayFX ----------
-corner_radius 0
+corner_radius 14
 blur enable
+blur_xray disable
 blur_passes 4
-blur_radius 6
-blur_noise 0.04
-blur_brightness 0.75
-blur_contrast 1.1
-blur_saturation 1.15
+blur_radius 9
+blur_noise 0.02
+blur_brightness 0.9
+blur_contrast 0.95
+blur_saturation 1.25
 
 # focused window glows teal, the rest sink into black
 shadows enable
-shadow_blur_radius 55
+shadow_blur_radius 40
 shadow_offset 0 0
 shadow_color #6f9f8b66
 shadow_inactive_color #000000cc
 
-default_dim_inactive 0.25
+default_dim_inactive 0.15
 dim_inactive_colors.unfocused #000000ff
 
 layer_effects "waybar" blur enable; blur_ignore_transparent enable; shadows enable
-layer_effects "launcher" blur enable; shadows enable
+layer_effects "launcher" blur enable; blur_ignore_transparent enable; shadows enable; corner_radius 16
 layer_effects "notifications" blur enable; blur_ignore_transparent enable; shadows disable
 
 # ---------- apps ----------
@@ -176,8 +177,8 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym $mod+backslash exec playerctl play-pause
 bindsym $mod+bracketright exec playerctl next
 bindsym $mod+bracketleft exec playerctl previous
-for_window [app_id="^(?!foot|dropdown|mazesaver|music).*"] opacity 0.95
-for_window [app_id="firefox"] opacity 0.9
+for_window [app_id="^(?!foot|dropdown|mazesaver|music).*"] opacity 0.92
+for_window [app_id="firefox"] opacity 0.88
 bindsym $mod+Shift+p exec ~/.config/sway/scripts/powermenu.sh
 bindsym $mod+Ctrl+n exec ~/.config/sway/scripts/netmenu.sh
 bindsym $mod+Ctrl+b exec ~/.config/sway/scripts/btmenu.sh

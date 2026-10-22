@@ -28,7 +28,7 @@ try:
         f = (math.sin((time.time() - t0) * 2 * math.pi / 8) + 1) / 2
         c = "#%02x%02x%02x" % tuple(round(a + (b - a) * f) for a, b in zip(A, B))
         if c != last:
-            run(s, f"client.focused {c} #060b09 {c} {c} {c}; shadow_color {c}66")
+            run(s, f"client.focused {c}99 #060b0966 {c} {c}99 {c}99; shadow_color {c}66")
             last = c
         time.sleep(0.1)
 except (SystemExit, KeyboardInterrupt, ConnectionError, BrokenPipeError):

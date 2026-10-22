@@ -1,0 +1,19 @@
+/* LABYRINTH lightdm-gtk-greeter. Canonical colours: theme-apply.py remaps this like every other managed file. */
+* { font-family: "UnifontExMono", monospace; border-radius: 0; box-shadow: none; text-shadow: none; }
+window, #panel_window { background-color: #060b09; color: #d4cba8; }
+#panel_window { background-color: rgba(6,11,9,0.85); border-bottom: 1px solid #1f3a31; }
+#login_window { background-color: rgba(6,11,9,0.88); border: 1px solid #d4cba8; padding: 24px; }
+#login_window label { color: #8f8a6e; }
+#user_combobox, #user_combobox * { color: #c9b97a; background: transparent; }
+entry, #password_entry { background-image: none; background-color: #0d1814; color: #d4cba8; border: 1px solid #1f3a31; caret-color: #6f9f8b; padding: 6px 8px; }
+entry:focus { border-color: #6f9f8b; }
+button { background-image: none; background-color: #0d1814; color: #d4cba8; border: 1px solid #1f3a31; padding: 4px 12px; }
+button:hover { border-color: #c9b97a; color: #c9b97a; }
+button:active, button:checked { background-color: #1f3a31; color: #efe8cc; }
+button.suggested-action { border-color: #6f9f8b; color: #6f9f8b; }
+#error_label, label.error { color: #b5523b; }
+#clock_label, #hostname_label { color: #6f9f8b; }
+menu, menuitem, .menu { background-image: none; background-color: #060b09; color: #d4cba8; border: 1px solid #1f3a31; }
+menuitem:hover { background-color: #1f3a31; color: #efe8cc; }
+progressbar progress { background-color: #6f9f8b; }
+selection { background-color: #6f9f8b; color: #060b09; }

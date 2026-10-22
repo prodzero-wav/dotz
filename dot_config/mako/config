@@ -1,9 +1,9 @@
 font=UnifontExMono 12
-background-color=#060b09dd
+background-color=#060b0999
 text-color=#d4cba8
-border-color=#6f9f8b
+border-color=#6f9f8b66
 border-size=1
-border-radius=0
+border-radius=14
 padding=16
 margin=10,14,14,14
 width=340
