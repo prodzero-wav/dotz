@@ -53,12 +53,78 @@ if wall:
         im = "magick" if subprocess.run(["which", "magick"], capture_output=True).returncode == 0 else "convert"
         subprocess.run([im, "-size", "1920x1080", f"xc:{val}", wallpng], check=True)
 
+# ---- settings + style (glass | flat), blur radius, gaps ----
+# Canonical files in the repo are the glass look. style() makes value-only edits
+# on that text *before* the theme palette is applied, so every theme works with every style.
+SET = {"style": "glass", "blur": "9", "gaps": "14"}
+try:
+    for _l in open(os.path.join(CFG, "labyrinth", "settings")):
+        _k, _, _v = _l.strip().partition("=")
+        if _k == "style" and _v in ("glass", "flat") or _k in ("blur", "gaps") and _v.isdigit():
+            SET[_k] = _v
+except OSError:
+    pass
+
+_ISLANDS = """.modules-left, .modules-center, .modules-right {
+  background: linear-gradient(90deg, rgba(6, 11, 9, 0.78), rgba(22, 42, 35, 0.55));
+  border: 1px solid rgba(212, 203, 168, 0.32);
+  padding: 0 6px;
+}
+.modules-right {
+  background: linear-gradient(270deg, rgba(6, 11, 9, 0.78), rgba(22, 42, 35, 0.55));
+}"""
+_LAYERS = {"waybar": "shadows disable", "launcher": "shadows enable", "notifications": "shadows disable"}
+
+def style(path, t):
+    if path.endswith("/sway/config"):
+        t = re.sub(r"(?m)^gaps inner \d+", "gaps inner " + SET["gaps"], t)
+        t = re.sub(r"(?m)^blur_radius \d+", "blur_radius " + SET["blur"], t)
+    if SET["style"] != "flat":
+        return t
+    if path.endswith("/sway/config"):
+        t = re.sub(r"(?m)^(default(?:_floating)?_border pixel) \d+", r"\1 2", t)
+        t = re.sub(r"(?m)^client\.focused .*$", "client.focused          $bone  $bg $bone $bone  $bone", t)
+        t = re.sub(r"(?m)^client\.focused_inactive .*$", "client.focused_inactive $green $bg $dim  $green $green", t)
+        t = re.sub(r"(?m)^client\.unfocused .*$", "client.unfocused        $green $bg $dim  $green $green", t)
+        t = re.sub(r"(?m)^corner_radius \d+", "corner_radius 0", t)
+        t = re.sub(r"(?m)^blur enable", "blur disable", t)
+        t = re.sub(r"(?m)^shadow_blur_radius \d+", "shadow_blur_radius 55", t)
+        t = re.sub(r"(?m)^default_dim_inactive [\d.]+", "default_dim_inactive 0.25", t)
+        t = re.sub(r'(?m)^layer_effects "(\w+)" .*$', lambda m: 'layer_effects "%s" %s' % (m[1], _LAYERS.get(m[1], "shadows disable")), t)
+        t = re.sub(r'(?m)^(for_window \[app_id="\^\(\?!.*\] opacity) [\d.]+', r"\1 0.95", t)
+        t = re.sub(r'(?m)^(for_window \[app_id="firefox"\] opacity) [\d.]+', r"\1 0.9", t)
+    elif path.endswith("/sway/scripts/borderglow.py"):
+        t = t.replace('f"client.focused {c}99 #060b0966 {c} {c}99 {c}99; shadow_color {c}66"',
+                      'f"client.focused {c} #060b09 {c} {c} {c}; shadow_color {c}66"')
+    elif path.endswith("/waybar/style.css"):
+        t = re.sub(r"window#waybar \{.*?\n\}", "window#waybar {\n  background: transparent;\n  color: #d4cba8;\n}", t, count=1, flags=re.S)
+        t = re.sub(r"\.modules-left, \.modules-center, \.modules-right \{.*?\n\}", lambda m: _ISLANDS, t, count=1, flags=re.S)
+        t = t.replace("  margin: 4px 2px;\n  border-radius: 10px;\n", "")
+        t = t.replace("  border: 1px solid transparent;\n", "  border-bottom: 2px solid transparent;\n")
+        t = t.replace("  border: 1px solid rgba(212, 203, 168, 0.28);", "  border-bottom: 2px solid #d4cba8;")
+        t = t.replace("rgba(111, 159, 139, 0.22)", "rgba(111, 159, 139, 0.16)")
+        t = t.replace("border-color: #b5523b; }", "border-bottom-color: #b5523b; }")
+        t = re.sub(r"tooltip \{[^\n]*\}", "tooltip { background: #060b09; border: 1px solid #6f9f8b; }", t, count=1)
+    elif path.endswith("/fuzzel/fuzzel.ini"):
+        for k, v in (("background", "060b09e6"), ("text", "8f8a6eff"), ("selection", "1f3a31ff"), ("border", "d4cba8ff"), ("radius", "0")):
+            t = re.sub(r"(?m)^%s=\w+" % k, "%s=%s" % (k, v), t)
+    elif path.endswith("/mako/config"):
+        t = re.sub(r"(?m)^background-color=.*", "background-color=#060b09dd", t)
+        t = t.replace("border-color=#6f9f8b66", "border-color=#6f9f8b")
+        t = re.sub(r"(?m)^border-radius=\d+", "border-radius=0", t)
+    elif path.endswith("/swayosd/style.css"):
+        t = t.replace("border-radius: 16px;", "border-radius: 0;").replace("border-radius: 6px;", "border-radius: 0;")
+        t = t.replace("rgba(212, 203, 168, 0.25)", "rgba(212, 203, 168, 0.4)").replace("rgba(6, 11, 9, 0.55)", "rgba(6, 11, 9, 0.88)")
+    elif path.endswith("/foot/foot.ini"):
+        t = t.replace("alpha=0.72", "alpha=0.78")
+    return t
+
 def render(path):
     try:
         src = subprocess.run(["chezmoi", "cat", path], capture_output=True, text=True, check=True).stdout
     except Exception:
         return None
-    out = convert(src)
+    out = convert(style(path, src))
     if wallpng:
         if path.endswith("/sway/config"):
             out = re.sub(r"(?m)^output \* bg .*$", f"output * bg {wallpng} fill", out)

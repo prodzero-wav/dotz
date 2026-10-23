@@ -202,3 +202,4 @@ bindsym Ctrl+Alt+Delete exec ~/.config/sway/scripts/powermenu.sh
 bindsym --release Super_L exec $menu
 bindsym $mod+Shift+F23 exec ~/.config/sway/scripts/profilecycle.sh
 bindsym $mod+Ctrl+t exec ~/.config/sway/scripts/theme.sh
+bindsym $mod+comma exec ~/.config/sway/scripts/settings.sh

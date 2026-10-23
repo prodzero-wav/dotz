@@ -1,0 +1,46 @@
+desktop-image: "bg.png"
+desktop-color: "#060b09"
+title-text: "L A B Y R I N T H"
+title-font: "UnifontExMono Regular 48"
+title-color: "#d4cba8"
+message-font: "UnifontExMono Regular 32"
+message-color: "#d4cba8"
+terminal-font: "UnifontExMono Regular 32"
+
++ boot_menu {
+  left = 15%
+  top = 28%
+  width = 70%
+  height = 45%
+  item_font = "UnifontExMono Regular 32"
+  item_color = "#d4cba8"
+  selected_item_font = "UnifontExMono Regular 32"
+  selected_item_color = "#f5eed6"
+  selected_item_pixmap_style = "select_*.png"
+  item_height = 52
+  item_padding = 14
+  item_spacing = 8
+  scrollbar = false
+}
+
++ progress_bar {
+  id = "__timeout__"
+  left = 15%
+  top = 78%
+  width = 70%
+  height = 4
+  show_text = false
+  bg_color = "#1f3a31"
+  fg_color = "#6f9f8b"
+  border_color = "#1f3a31"
+}
+
++ label {
+  left = 15%
+  top = 84%
+  width = 70%
+  align = "center"
+  font = "UnifontExMono Regular 32"
+  color = "#e0694a"
+  text = "↑ ↓ select  ·  enter boot  ·  e edit  ·  c cmdline"
+}

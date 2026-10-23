@@ -29,7 +29,8 @@
   "custom/eye": {
     "format": "\u25c9",
     "tooltip": false,
-    "on-click": "sleep 0.2; fuzzel"
+    "on-click": "sleep 0.2; fuzzel",
+    "on-click-right": "sleep 0.2; ~/.config/sway/scripts/settings.sh"
   },
   "sway/workspaces": {
     "disable-scroll": true,
