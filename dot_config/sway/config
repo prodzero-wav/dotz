@@ -78,7 +78,7 @@ bindsym $mod+p exec pavucontrol
 bindsym $mod+Shift+i exec foot --hold fastfetch
 bindsym $mod+z exec ~/.config/sway/scripts/saver.sh start
 bindsym $mod+slash exec ~/.config/sway/scripts/keys.sh
-bindsym $mod+grave [app_id="dropdown"] scratchpad show
+bindsym $mod+grave exec ~/.config/sway/scripts/dropdown.sh
 
 # ---------- session ----------
 bindsym $mod+q kill
