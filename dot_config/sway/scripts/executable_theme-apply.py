@@ -19,7 +19,7 @@ for line in open(mapfile):
     p = line.split()
     if len(p) == 2 and re.fullmatch(r"[0-9a-fA-F]{6}", p[0]) and re.fullmatch(r"[0-9a-fA-F]{6}", p[1]):
         pairs[p[0].lower()] = p[1].lower()
-    elif len(p) == 3 and p[0] == "wallpaper" and p[1] in ("solid", "image"):
+    elif len(p) == 3 and p[0] == "wallpaper" and p[1] in ("solid", "image", "video"):
         wall = (p[1], p[2])
 
 hex_re = re.compile(r"(?<![0-9a-fA-F])(" + "|".join(pairs) + r")(?=(?:[0-9a-fA-F]{2})?(?![0-9a-fA-F]))", re.I) if pairs else None
@@ -45,7 +45,11 @@ def convert(text):
 wallpng = None
 if wall:
     kind, val = wall
-    if kind == "image":
+    if kind == "video":
+        os.makedirs(CACHE, exist_ok=True)
+        wallpng = os.path.join(CACHE, f"wall-{name}.png")
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", os.path.expanduser(val), "-frames:v", "1", wallpng], check=True)
+    elif kind == "image":
         wallpng = os.path.expanduser(val)
     else:
         os.makedirs(CACHE, exist_ok=True)

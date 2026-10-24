@@ -16,7 +16,7 @@ fi
 out=$(python3 "$S/theme-apply.py" "$pick" 2>&1) || { notify-send -u critical "Theme" "$out"; exit 1; }
 
 rm -f "$HOME/.cache/labyrinth/lock-base."* "${XDG_RUNTIME_DIR:-/tmp}"/lockbg/*.png
-swaymsg reload >/dev/null   # sway restarts waybar itself (swaybar_command)
+swaymsg reload >/dev/null; sleep 0.5; "$S/videowall.sh"   # sway restarts waybar itself (swaybar_command)
 sleep 1.5; pgrep -x waybar >/dev/null || setsid -f waybar >/dev/null 2>&1
 makoctl reload 2>/dev/null
 pkill -f borderglow.py; setsid -f "$S/borderglow.py" >/dev/null 2>&1

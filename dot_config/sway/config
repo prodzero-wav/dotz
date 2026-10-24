@@ -163,6 +163,7 @@ exec mako
 exec ~/.config/sway/scripts/sfx.sh startup
 exec ~/.config/sway/scripts/powermode.sh
 exec ~/.config/sway/scripts/lock.sh prepare
+exec ~/.config/sway/scripts/videowall.sh
 exec ~/.config/sway/scripts/borderglow.py
 exec foot --app-id=dropdown
 exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark

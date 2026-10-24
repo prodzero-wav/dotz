@@ -1,4 +1,4 @@
-# MONO: black / white / cream, high contrast.
+# MONO: black / white / neutral greys, neon red the only colour.
 # Format: <labyrinth hex> <new hex>. Alpha suffixes (e.g. 060b09e6) are preserved.
 
 # backgrounds
@@ -10,21 +10,21 @@
 2a3a33 3d3d3d
 4a5a52 5c5c5c
 6c6a55 7a7a7a
-# text: dim, normal (cream), bright (white)
-8f8a6e b3ad9a
-d4cba8 f3ead3
+# text: dim, normal, bright
+8f8a6e b3b3b3
+d4cba8 e8e8e8
 efe8cc ffffff
-# accent (teal) and its brights
+# accent (teal) and its brights -> white / light grey
 6f9f8b ffffff
 8fc0aa ffffff
-7fb09a d9d0b8
-9fd0ba ece3cb
-# danger (rust) -> neon red, the only saturated colour
+7fb09a d9d9d9
+9fd0ba ececec
+# danger (rust) -> neon red
 b5523b ff0a3a
 d06a50 ff3d5c
-# warning (gold)
-c9b97a e8dcb8
-e0d08f f3ead3
+# warning (gold): normal goes red, bright goes white
+c9b97a ff0a3a
+e0d08f ffffff
 # ansi blue / magenta -> greys
 5f8a9a 8a8a8a
 7aa8b8 b0b0b0
