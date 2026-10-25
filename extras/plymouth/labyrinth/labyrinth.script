@@ -1,0 +1,133 @@
+# LABYRINTH: concentric maze rings that tick round, a pulsing rust dot, thin progress line.
+# boot: rings build in from the outside. shutdown/reboot: they collapse inward and the dot dies.
+
+Window.SetBackgroundTopColor(0.0235, 0.0431, 0.0353);
+Window.SetBackgroundBottomColor(0.0235, 0.0431, 0.0353);
+
+sw = Window.GetWidth();
+sh = Window.GetHeight();
+cx = sw / 2;
+cy = sh / 2;
+f = Math.Min(sw, sh) / 1080;
+if (f > 1.6) f = 1.6;
+
+N = 5;
+size[0] = 380; size[1] = 308; size[2] = 236; size[3] = 164; size[4] = 92;
+rate[0] = 0.45; rate[1] = 0.65; rate[2] = 0.85; rate[3] = 1.05; rate[4] = 1.30;
+
+for (i = 0; i < N; i++) {
+    s = size[i] * f;
+    for (k = 0; k < 4; k++)
+        img[i * 4 + k] = Image("ring" + i + "_" + k + ".png").Scale(s, s);
+    ring[i] = Sprite(img[i * 4]);
+    ring[i].SetX(cx - s / 2);
+    ring[i].SetY(cy - s / 2);
+    ring[i].SetOpacity(0);
+    last[i] = 0;
+}
+
+dot_img = Image("dot.png").Scale(64 * f, 64 * f);
+dot = Sprite(dot_img);
+dot.SetX(cx - 32 * f);
+dot.SetY(cy - 32 * f);
+dot.SetOpacity(0);
+
+bar_w = 260 * f;
+bar_y = cy + size[0] * f / 2 + 48 * f;
+bar_h = Math.Max(2, 2 * f);
+track_img = Image("track.png").Scale(bar_w, bar_h);
+track = Sprite(track_img);
+track.SetX(cx - bar_w / 2);
+track.SetY(bar_y);
+track.SetOpacity(0);
+bar_src = Image("bar.png");
+bar = Sprite();
+bar.SetX(cx - bar_w / 2);
+bar.SetY(bar_y);
+bar.SetZ(2);
+
+mode = Plymouth.GetMode();
+leaving = 0;
+if (mode == "shutdown" || mode == "reboot") leaving = 1;
+
+progress = 0;
+shown_w = 0;
+t = 0;
+
+fun clamp(v) {
+    if (v < 0) return 0;
+    if (v > 1) return 1;
+    return v;
+}
+
+fun refresh() {
+    t++;
+    time = t / 50;
+
+    for (i = 0; i < N; i++) {
+        if (leaving)
+            op = 1 - clamp((time - 0.3 - i * 0.35) / 0.5);
+        else
+            op = clamp((time - i * 0.25) / 0.5);
+        ring[i].SetOpacity(op);
+
+        k = Math.Int(time * rate[i]) % 4;
+        if (i % 2 == 1) k = 3 - k;
+        if (k != last[i]) {
+            ring[i].SetImage(img[i * 4 + k]);
+            last[i] = k;
+        }
+    }
+
+    pulse = 0.65 + 0.35 * Math.Sin(time * 3.2);
+    if (leaving)
+        dot.SetOpacity(pulse * (1 - clamp((time - 2.0) / 1.2)));
+    else
+        dot.SetOpacity(pulse * clamp((time - 1.1) / 0.5));
+
+    if (!leaving) {
+        track.SetOpacity(clamp((time - 1.2) / 0.5));
+        w = Math.Int(bar_w * progress);
+        if (w != shown_w && w > 0) {
+            bar.SetImage(bar_src.Scale(w, bar_h));
+            shown_w = w;
+        }
+    }
+}
+Plymouth.SetRefreshFunction(refresh);
+
+fun boot_progress(duration, p) {
+    progress = p;
+}
+Plymouth.SetBootProgressFunction(boot_progress);
+
+# disk-unlock prompt
+prompt = Sprite();
+stars = Sprite();
+py = cy + size[0] * f / 2 + 90 * f;
+
+fun password_cb(text, bullets) {
+    pimg = Image.Text("passphrase", 0.83, 0.80, 0.66);
+    prompt.SetImage(pimg);
+    prompt.SetX(cx - pimg.GetWidth() / 2);
+    prompt.SetY(py);
+    prompt.SetOpacity(1);
+    if (bullets > 0) {
+        str = "";
+        for (j = 0; j < bullets; j++) str = str + "*";
+        simg = Image.Text(str, 0.44, 0.62, 0.55);
+        stars.SetImage(simg);
+        stars.SetX(cx - simg.GetWidth() / 2);
+        stars.SetY(py + pimg.GetHeight() + 8 * f);
+        stars.SetOpacity(1);
+    } else {
+        stars.SetOpacity(0);
+    }
+}
+Plymouth.SetDisplayPasswordFunction(password_cb);
+
+fun normal_cb() {
+    prompt.SetOpacity(0);
+    stars.SetOpacity(0);
+}
+Plymouth.SetDisplayNormalFunction(normal_cb);

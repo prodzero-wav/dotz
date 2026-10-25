@@ -178,7 +178,7 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym $mod+backslash exec playerctl play-pause
 bindsym $mod+bracketright exec playerctl next
 bindsym $mod+bracketleft exec playerctl previous
-for_window [app_id="^(?!foot|dropdown|mazesaver|music).*"] opacity 0.92
+for_window [app_id="^(?!foot|dropdown|mazesaver|shutdown|music).*"] opacity 0.92
 for_window [app_id="firefox"] opacity 0.88
 bindsym $mod+Shift+p exec ~/.config/sway/scripts/powermenu.sh
 bindsym $mod+Ctrl+n exec ~/.config/sway/scripts/netmenu.sh

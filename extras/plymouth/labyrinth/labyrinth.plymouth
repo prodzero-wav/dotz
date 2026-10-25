@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Labyrinth
+Description=Ticking maze rings in bone, teal and rust
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/labyrinth
+ScriptFile=/usr/share/plymouth/themes/labyrinth/labyrinth.script
