@@ -13,7 +13,7 @@ mapfile = os.path.join(CFG, "labyrinth", "themes", name + ".map")
 if not os.path.isfile(mapfile):
     sys.exit(f"no such theme: {name}")
 
-pairs, wall = {}, None
+pairs, wall, solid = {}, None, None
 for line in open(mapfile):
     line = line.split("#", 1)[0] if not line.startswith("wallpaper") else line
     p = line.split()
@@ -21,6 +21,8 @@ for line in open(mapfile):
         pairs[p[0].lower()] = p[1].lower()
     elif len(p) == 3 and p[0] == "wallpaper" and p[1] in ("solid", "image", "video"):
         wall = (p[1], p[2])
+        if p[1] == "solid":
+            solid = wall   # remembered as a fallback if a later video/image is missing
 
 hex_re = re.compile(r"(?<![0-9a-fA-F])(" + "|".join(pairs) + r")(?=(?:[0-9a-fA-F]{2})?(?![0-9a-fA-F]))", re.I) if pairs else None
 rgb = {}
@@ -41,6 +43,10 @@ def convert(text):
         return sep.join(map(str, rgb[nums]))
     return rgb_re.sub(r, text)
 
+# a missing video/image must not break theme switching: fall back to the theme's solid colour
+if wall and wall[0] in ("video", "image") and not os.path.isfile(os.path.expanduser(wall[1])):
+    print(f"warning: {wall[1]} not found, using solid wallpaper", file=sys.stderr)
+    wall = solid
 # wallpaper: solid colour (made into a png) or an image; used by sway and the lock screen
 wallpng = None
 if wall:

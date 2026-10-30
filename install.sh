@@ -235,15 +235,21 @@ if [[ "$SKIP_PKGS" == false ]]; then
       fi
 
       info "Installing official packages via pacman..."
-      for pkg in "${ARCH_PACMAN_PKGS[@]}"; do
-        $SUDO_CMD pacman -S --needed --noconfirm "$pkg" || warn "Could not install: $pkg"
-      done
+      if ! $SUDO_CMD pacman -S --needed --noconfirm "${ARCH_PACMAN_PKGS[@]}"; then
+        warn "Batch install failed, retrying one package at a time..."
+        for pkg in "${ARCH_PACMAN_PKGS[@]}"; do
+          $SUDO_CMD pacman -S --needed --noconfirm "$pkg" || warn "Could not install: $pkg"
+        done
+      fi
 
       if [[ -n "$AUR_HELPER" ]]; then
         info "Installing AUR packages via $AUR_HELPER..."
-        for pkg in "${ARCH_AUR_PKGS[@]}"; do
-          $AUR_HELPER -S --needed --noconfirm "$pkg" || warn "Could not install AUR package: $pkg"
-        done
+        if ! $AUR_HELPER -S --needed --noconfirm "${ARCH_AUR_PKGS[@]}"; then
+          warn "Batch AUR install failed, retrying one package at a time..."
+          for pkg in "${ARCH_AUR_PKGS[@]}"; do
+            $AUR_HELPER -S --needed --noconfirm "$pkg" || warn "Could not install AUR package: $pkg"
+          done
+        fi
         if ! command -v sway &>/dev/null; then
           warn "swayfx did not install, trying swayfx-git..."
           $AUR_HELPER -S --needed --noconfirm swayfx-git || warn "Could not install swayfx-git either. Install swayfx manually."

@@ -66,141 +66,18 @@ layer_effects "waybar" blur enable; blur_ignore_transparent disable; shadows dis
 layer_effects "launcher" blur enable; blur_ignore_transparent enable; shadows enable; corner_radius 16
 layer_effects "notifications" blur enable; blur_ignore_transparent enable; shadows disable
 
-# ---------- apps ----------
-bindsym $mod+Return exec $term
-bindsym $mod+d exec $menu
-bindsym $mod+w exec ~/.config/sway/scripts/focusorlaunch.sh $browser_id $browser
-bindsym $mod+Shift+w exec $browser --new-window
-bindsym $mod+n exec $files
-bindsym $mod+Shift+f exec thunar
-bindsym $mod+m exec ~/.config/sway/scripts/focusorlaunch.sh music foot --app-id=music subtui
-bindsym $mod+p exec pavucontrol
-bindsym $mod+Shift+i exec foot --hold fastfetch
-bindsym $mod+z exec ~/.config/sway/scripts/saver.sh start
-bindsym $mod+slash exec ~/.config/sway/scripts/keys.sh
-bindsym $mod+grave exec ~/.config/sway/scripts/dropdown.sh
-
-# ---------- session ----------
-bindsym $mod+q kill
-bindsym $mod+Shift+c reload
-bindsym $mod+Escape exec ~/.config/sway/scripts/lock.sh
-bindsym $mod+Shift+e exec swaynag -t warning -m 'Leave the maze?' -B 'Exit' 'swaymsg exit'
-bindsym $mod+Shift+n exec makoctl dismiss -a
-bindsym $mod+Shift+m exec ~/.config/sway/scripts/sfx.sh toggle
-
-# ---------- focus / move ----------
-floating_modifier $mod normal
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
-
-# ---------- layout ----------
-bindsym $mod+g splith
-bindsym $mod+v splitv
-bindsym $mod+f fullscreen
-bindsym $mod+s layout stacking
-bindsym $mod+t layout tabbed
-bindsym $mod+e layout toggle split
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
-bindsym $mod+a focus parent
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
-bindsym $mod+Tab workspace back_and_forth
-
-# ---------- workspaces ----------
-workspace_auto_back_and_forth yes
-bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3
-bindsym $mod+4 workspace number 4
-bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
-bindsym $mod+0 workspace number 10
-bindsym $mod+Shift+1 move container to workspace number 1
-bindsym $mod+Shift+2 move container to workspace number 2
-bindsym $mod+Shift+3 move container to workspace number 3
-bindsym $mod+Shift+4 move container to workspace number 4
-bindsym $mod+Shift+5 move container to workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9
-bindsym $mod+Shift+0 move container to workspace number 10
-
-mode "resize" {
-    bindsym Left resize shrink width 40px
-    bindsym Down resize grow height 40px
-    bindsym Up resize shrink height 40px
-    bindsym Right resize grow width 40px
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-bindsym $mod+r mode "resize"
-
-# ---------- media / screenshots ----------
-bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
-bindsym Print exec grim ~/Pictures/shot-$(date +%s).png
-
-# ---------- rules ----------
-for_window [app_id="pavucontrol"] floating enable
-for_window [title="^Picture-in-Picture$"] floating enable, sticky enable
-for_window [app_id="dropdown"] floating enable, resize set width 85 ppt height 45 ppt, move position center, move scratchpad
-
-# ---------- startup ----------
-bar {
-    swaybar_command waybar
-}
-exec mako
-exec ~/.config/sway/scripts/sfx.sh startup
-exec ~/.config/sway/scripts/powermode.sh
-exec ~/.config/sway/scripts/lock.sh prepare
-exec ~/.config/sway/scripts/videowall.sh
-exec ~/.config/sway/scripts/borderglow.py
-exec foot --app-id=dropdown
-exec_always gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-exec swayidle -w timeout 180 '~/.config/sway/scripts/saver.sh start' resume '~/.config/sway/scripts/saver.sh stop' timeout 300 '~/.config/sway/scripts/lock.sh' timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' before-sleep '~/.config/sway/scripts/lock.sh'
-exec autotiling
-include /etc/sway/config.d/*
-
-# ---------- now playing ----------
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-bindsym $mod+backslash exec playerctl play-pause
-bindsym $mod+bracketright exec playerctl next
-bindsym $mod+bracketleft exec playerctl previous
+# ---------- window rules that depend on the look (rewritten by theme-apply.py) ----------
 for_window [app_id="^(?!foot|dropdown|mazesaver|shutdown|music).*"] opacity 0.92
 for_window [app_id="firefox"] opacity 0.88
-bindsym $mod+Shift+p exec ~/.config/sway/scripts/powermenu.sh
-bindsym $mod+Ctrl+n exec ~/.config/sway/scripts/netmenu.sh
-bindsym $mod+Ctrl+b exec ~/.config/sway/scripts/btmenu.sh
-
-# RICE2-BEGIN
 animation_duration_ms 200
 seat * hide_cursor when-typing enable
-exec swayosd-server
-bindsym XF86AudioRaiseVolume exec swayosd-client --output-volume raise
-bindsym XF86AudioLowerVolume exec swayosd-client --output-volume lower
-bindsym XF86AudioMute exec swayosd-client --output-volume mute-toggle
-bindsym XF86MonBrightnessUp exec swayosd-client --brightness raise
-bindsym XF86MonBrightnessDown exec swayosd-client --brightness lower
-# RICE2-END
 seat seat0 xcursor_theme Hackneyed 24
 
-# per-machine settings (monitor mode, etc.) go in ~/.config/sway/local.d/*.conf, not tracked
-include ~/.config/sway/local.d/*
+# ---------- split config ----------
+# binds, rules and startup live in conf.d/ (keys.sh reads them too)
+include ~/.config/sway/conf.d/*.conf
+include /etc/sway/config.d/*
 
-bindsym Ctrl+Alt+Delete exec ~/.config/sway/scripts/powermenu.sh
-bindsym --release Super_L exec $menu
-bindsym $mod+Shift+F23 exec ~/.config/sway/scripts/profilecycle.sh
-bindsym $mod+Ctrl+t exec ~/.config/sway/scripts/theme.sh
-bindsym $mod+comma exec ~/.config/sway/scripts/settings.sh
+# per-machine settings (monitor mode, etc.) go in ~/.config/sway/local.d/*.conf, not tracked
+# (included last so it can override anything above)
+include ~/.config/sway/local.d/*

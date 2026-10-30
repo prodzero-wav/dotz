@@ -7,9 +7,12 @@ T=/usr/share/plymouth/themes/labyrinth
 [[ -f $D/labyrinth.script ]] || { echo "Missing $D"; exit 1; }
 
 # 1. package + theme
-sudo pacman -S --needed --noconfirm plymouth
+sudo pacman -S --needed --noconfirm plymouth python-pillow
+# the PNGs are generated, not committed
+GEN="$(mktemp -d)"; trap 'rm -rf "$GEN"' EXIT
+python3 "$D/gen-assets.py" "$GEN" >/dev/null
 sudo install -dm755 "$T"
-sudo install -m644 "$D"/*.png "$D/labyrinth.plymouth" "$D/labyrinth.script" "$T/"
+sudo install -m644 "$GEN"/*.png "$D/labyrinth.plymouth" "$D/labyrinth.script" "$T/"
 
 # 2. mkinitcpio: plymouth hook goes after udev (or systemd), before encrypt/filesystems
 CONF=/etc/mkinitcpio.conf

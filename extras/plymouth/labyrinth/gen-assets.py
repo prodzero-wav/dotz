@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Renders the LABYRINTH plymouth PNGs. Edit the palette and re-run to retheme (needs Pillow)."""
+import os, sys
 from PIL import Image, ImageDraw
+
+# output dir: first argument, else next to this script
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.dirname(os.path.abspath(__file__))
+os.makedirs(OUT, exist_ok=True)
 
 # palette (repo colours)
 BG    = "#060b09"   # set in labyrinth.script too
@@ -28,7 +33,7 @@ def ring(size, color, k):
 
 for i, (s, col) in enumerate(zip(SIZES, RINGS)):
     for k in range(4):
-        ring(s, col, k).save(f"ring{i}_{k}.png")
+        ring(s, col, k).save(os.path.join(OUT, f"ring{i}_{k}.png"))
 
 # centre dot with a soft glow
 n = 64 * SS
@@ -37,8 +42,8 @@ r = hexrgb(RUST)
 for rad, a in ((30, 28), (24, 55), (18, 100)):
     d.ellipse([n/2 - rad*SS, n/2 - rad*SS, n/2 + rad*SS, n/2 + rad*SS], fill=r + (a,))
 d.ellipse([n/2 - 11*SS, n/2 - 11*SS, n/2 + 11*SS, n/2 + 11*SS], fill=r + (255,))
-dot.resize((64, 64), Image.LANCZOS).save("dot.png")
+dot.resize((64, 64), Image.LANCZOS).save(os.path.join(OUT, "dot.png"))
 
-Image.new("RGBA", (4, 4), hexrgb(TEAL) + (255,)).save("bar.png")
-Image.new("RGBA", (4, 4), hexrgb(DIM) + (255,)).save("track.png")
+Image.new("RGBA", (4, 4), hexrgb(TEAL) + (255,)).save(os.path.join(OUT, "bar.png"))
+Image.new("RGBA", (4, 4), hexrgb(DIM) + (255,)).save(os.path.join(OUT, "track.png"))
 print("ok")

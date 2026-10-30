@@ -19,6 +19,20 @@ After a `chezmoi apply` reverts files to LABYRINTH, run `theme.sh reapply`. To a
 - **GRUB theme fonts are generated, not committed.** Run `grubtheme/build-fonts.sh` (needs `grub-mkfont` and UnifontExMono, which `extras/post-install.sh` installs) before installing the theme.
 - **`scenefx0.5` is version-pinned in the AUR.** If `swayfx` fails to build after a system update, check that package's version matches what `swayfx` expects, or use `swayfx-git`.
 
+- **Sway config layout:** `sway/config` holds variables and the look (the part `theme-apply.py` rewrites). Keybindings, window rules and startup live in `sway/conf.d/10-binds.conf`, `20-rules.conf` and `30-startup.conf`. Per-machine overrides go in `sway/local.d/` (loaded last).
+- **Missing video wallpaper:** if a theme's `wallpaper video`/`image` file isn't there (e.g. `mono.mp4`), `theme-apply.py` falls back to the theme's `wallpaper solid` colour instead of failing.
+- **Plymouth PNGs are generated** by `extras/plymouth/labyrinth/gen-assets.py` when you run `extras/plymouth.sh` (needs `python-pillow`, installed by the script).
+
+## Troubleshooting
+
+| Problem | Fix |
+| :--- | :--- |
+| `swayfx` fails to build or won't start after an update | `scenefx0.5` and `swayfx` must match. Rebuild both, or install `swayfx-git`. |
+| Theme switch says "chezmoi not found" | Install `chezmoi` and run `install.sh` without `--no-chezmoi` so chezmoi points at this repo. |
+| Lock screen is blank or plain | You need `swaylock-plugin` (not `swaylock` or `swaylock-effects`). |
+| GRUB theme shows the wrong font | Run `grubtheme/build-fonts.sh`, copy the theme to `/boot/grub/themes/`, then `grub-mkconfig`. |
+| Firefox theme missing | Open Firefox once, close it, then run `extras/firefox-theme.sh`. |
+
 ## Scripts (`~/.config/sway/scripts`)
 
 | Script | What it does |
