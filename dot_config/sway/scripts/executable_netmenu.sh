@@ -29,15 +29,18 @@ case "$choice" in
   *)
     ssid=$(sed -E 's/^[● ] //; s/ +[0-9]+%.*$//' <<<"$choice")
     sec=$(awk '{print $NF}' <<<"$choice")
+    ok=false
     if nmcli -t -f NAME connection show | grep -qxF "$ssid"; then
-      out=$(nmcli connection up id "$ssid" 2>&1)
+      out=$(nmcli connection up id "$ssid" 2>&1) && ok=true
     elif [[ "$sec" == open ]]; then
-      out=$(nmcli device wifi connect "$ssid" 2>&1)
+      out=$(nmcli device wifi connect "$ssid" 2>&1) && ok=true
     else
       pw=$(fuzzel --dmenu --password -p "󰌾 $ssid " -l 0 -w 44 </dev/null) || exit 0
-      out=$(nmcli device wifi connect "$ssid" password "$pw" 2>&1)
+      # --ask reads the password from stdin, so it never shows up in `ps`
+      out=$(printf '%s\n' "$pw" | nmcli --ask device wifi connect "$ssid" 2>&1) && ok=true
+      unset pw
     fi
-    if [[ $? -eq 0 ]]; then notify-send "Wi-Fi" "Connected to $ssid"
+    if $ok; then notify-send "Wi-Fi" "Connected to $ssid"
     else notify-send -u critical "Wi-Fi" "Failed: $ssid\n${out:0:120}"; fi
     ;;
 esac

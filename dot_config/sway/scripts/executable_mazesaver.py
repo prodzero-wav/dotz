@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Carves a maze out of bone, floods it, then walks the way out. Any key quits.
-import sys, time, random, select, shutil, termios, tty
+import sys, random, select, shutil, termios, tty
 from collections import deque
 
 WALL = (212, 203, 168)

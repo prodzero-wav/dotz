@@ -31,6 +31,7 @@ SKIP_PKGS=false
 USE_SYMLINK=false
 INSTALL_BASHRC=false
 DRY_RUN=false
+USE_CHEZMOI=true
 CUSTOM_BACKUP_DIR=""
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -78,6 +79,7 @@ ARCH_PACMAN_PKGS=(
   ripgrep
   fzf
   poppler
+  chezmoi
 )
 
 ARCH_AUR_PKGS=(
@@ -123,6 +125,7 @@ show_help() {
   echo "      --symlink        Symlink dotfiles instead of copying them"
   echo "      --bashrc         Also install the repo .bashrc (existing one is backed up)"
   echo "      --backup-dir DIR Specify custom backup directory path"
+  echo "      --no-chezmoi     Use the built-in copy/symlink deploy instead of chezmoi"
   echo "      --dry-run        Simulate actions without making filesystem changes"
   echo "  -h, --help           Display this help message and exit"
   echo ""
@@ -155,6 +158,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --dry-run)
       DRY_RUN=true
+      shift
+      ;;
+    --no-chezmoi)
+      USE_CHEZMOI=false
       shift
       ;;
     -h|--help)
@@ -291,6 +298,30 @@ if [[ "$NEEDS_BACKUP" == true ]]; then
   fi
 fi
 
+# --- Deploy (chezmoi is the primary path: theme-apply.py needs it) ---
+deploy_chezmoi() {
+  local cfg="$HOME/.config/chezmoi/chezmoi.toml"
+  local targets=("$HOME/.config" "$HOME/Pictures/wallpapers")
+  [[ "$INSTALL_BASHRC" == true ]] && targets+=("$HOME/.bashrc")
+  if [[ "$USE_SYMLINK" == true ]]; then
+    warn "--symlink is ignored in chezmoi mode (use --no-chezmoi for symlinks)."
+  fi
+  if [[ "$DRY_RUN" == true ]]; then
+    info "[DRY-RUN] Would point chezmoi at $REPO_DIR and apply: ${targets[*]}"
+    return 0
+  fi
+  mkdir -p "$(dirname "$cfg")"
+  if [[ ! -e "$cfg" ]]; then
+    printf 'sourceDir = "%s"\n' "$REPO_DIR" > "$cfg"
+  elif ! grep -q "$REPO_DIR" "$cfg"; then
+    warn "$cfg exists and does not point at $REPO_DIR."
+    warn "Add:  sourceDir = \"$REPO_DIR\"  or run chezmoi with --source \"$REPO_DIR\"."
+  fi
+  chezmoi --source "$REPO_DIR" apply --force "${targets[@]}"
+  success "Dotfiles applied with chezmoi."
+}
+
+legacy_deploy() {
 # --- Deploy Dotfiles ---
 info "Deploying dotfiles to $CONFIG_TARGET_DIR..."
 
@@ -391,6 +422,14 @@ if [[ -d "$WALLPAPER_SRC" ]]; then
       info "No active Sway session detected. Wallpaper will be applied automatically when Sway starts."
     fi
   fi
+fi
+}
+
+if [[ "$USE_CHEZMOI" == true ]] && command -v chezmoi &>/dev/null; then
+  deploy_chezmoi
+else
+  [[ "$USE_CHEZMOI" == true ]] && warn "chezmoi not found, falling back to plain copy deploy (theme switching needs chezmoi)."
+  legacy_deploy
 fi
 
 # --- Final Check & Permissions ---

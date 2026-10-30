@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # ~/.bashrc
 #
 
@@ -30,6 +31,7 @@ goodbye()
 {
 	echo "Goodbye for now, $USER!"
 	sleep 3
+	# shellcheck disable=SC2033  # alias is not expanded in argument position
 	sudo shutdown now
 }
 
@@ -54,7 +56,7 @@ y() {
     tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
     command yazi "$@" --cwd-file="$tmp"
     IFS= read -r -d '' cwd < "$tmp"
-    [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+    if [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && [ -d "$cwd" ]; then builtin cd -- "$cwd" || true; fi
     rm -f -- "$tmp"
 }
 

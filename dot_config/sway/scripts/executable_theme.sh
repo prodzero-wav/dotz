@@ -16,10 +16,12 @@ fi
 out=$(python3 "$S/theme-apply.py" "$pick" 2>&1) || { notify-send -u critical "Theme" "$out"; exit 1; }
 
 rm -f "$HOME/.cache/labyrinth/lock-base."* "${XDG_RUNTIME_DIR:-/tmp}"/lockbg/*.png
-swaymsg reload >/dev/null; sleep 0.5; "$S/videowall.sh"   # sway restarts waybar itself (swaybar_command)
-sleep 1.5; pgrep -x waybar >/dev/null || setsid -f waybar >/dev/null 2>&1
+swaymsg reload >/dev/null
+"$S/videowall.sh"   # sway restarts waybar itself (swaybar_command)
+for _ in {1..15}; do pgrep -x waybar >/dev/null && break; sleep 0.2; done
+pgrep -x waybar >/dev/null || setsid -f waybar >/dev/null 2>&1
 makoctl reload 2>/dev/null
-pkill -f borderglow.py; setsid -f "$S/borderglow.py" >/dev/null 2>&1
-pkill swayosd-server; setsid -f swayosd-server >/dev/null 2>&1
+pkill -f '[b]orderglow\.py$'; setsid -f "$S/borderglow.py" >/dev/null 2>&1
+pkill -x swayosd-server; setsid -f swayosd-server >/dev/null 2>&1
 setsid -f "$S/lock.sh" prepare >/dev/null 2>&1
 notify-send "Theme" "$pick applied. New terminals/apps pick it up; restart Firefox."

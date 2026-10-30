@@ -1,0 +1,16 @@
+name: lint
+on: [push, pull_request]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: shellcheck
+        run: |
+          sudo apt-get install -y shellcheck
+          shellcheck -S warning install.sh dot_bashrc extras/*.sh grubtheme/*.sh \
+            dot_config/sway/scripts/*.sh dot_config/waybar/scripts/*.sh
+      - name: ruff
+        run: |
+          pip install ruff
+          ruff check --select E9,F dot_config/sway/scripts/*.py extras/plymouth/labyrinth/*.py

@@ -12,6 +12,28 @@ The theme features a muted, dark earthy palette ("pulled from the painting") wit
 
 After a `chezmoi apply` reverts files to LABYRINTH, run `theme.sh reapply`. To add a theme, copy `mono.map` and change the right-hand hex values. Firefox's `userChrome.css`/`userContent.css` are regenerated too (run `extras/firefox-theme.sh` once first so the profile is set up); restart Firefox to see it.
 
+## Notes
+
+- **chezmoi is the primary install path.** `theme-apply.py` re-renders files via `chezmoi`, so `install.sh` now installs chezmoi and applies through it (it points chezmoi at the cloned repo). `--no-chezmoi` keeps the old copy/symlink deploy, but theme switching won't work there.
+- **Wallpaper path:** `sway/config` and `lock.sh` hard-code `labyrinth.jpg` on purpose. `theme-apply.py` rewrites those lines with each theme's `wallpaper` entry when you switch.
+- **GRUB theme fonts are generated, not committed.** Run `grubtheme/build-fonts.sh` (needs `grub-mkfont` and UnifontExMono, which `extras/post-install.sh` installs) before installing the theme.
+- **`scenefx0.5` is version-pinned in the AUR.** If `swayfx` fails to build after a system update, check that package's version matches what `swayfx` expects, or use `swayfx-git`.
+
+## Scripts (`~/.config/sway/scripts`)
+
+| Script | What it does |
+| :--- | :--- |
+| `theme.sh` / `theme-apply.py` | Theme menu and the renderer that remaps palettes across all configs |
+| `lock.sh` / `lockbg.sh` | Lock screen (swaylock-plugin) and its live background |
+| `saver.sh` / `mazesaver.py` | Idle maze screensaver |
+| `borderglow.py` | Recolours the focused-window glow |
+| `videowall.sh` | Video wallpaper via mpvpaper (themes with `wallpaper video`) |
+| `netmenu.sh` / `btmenu.sh` | Wi-Fi and Bluetooth menus (fuzzel) |
+| `powermenu.sh` / `powermode.sh` / `profilecycle.sh` | Power menu and power-profile switching |
+| `settings.sh` | Style/blur/gaps settings menu |
+| `sfx.sh` / `shutdown-anim.py` | UI sounds and shutdown animation |
+| `focusorlaunch.sh` / `dropdown.sh` / `keys.sh` | Focus-or-launch, dropdown terminal, keybind helper |
+
 ## 🎨 Screenshots
 
 <img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/d23e545a-431b-448b-a054-5de2826c91fc" />
