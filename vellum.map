@@ -1,0 +1,35 @@
+# VELLUM: light theme. Aged paper, ink, teal and rust.
+# Format: <labyrinth hex> <new hex>. Alpha suffixes are preserved.
+
+# backgrounds (paper)
+060b09 faf6ea
+0b1411 f1ead8
+0d1814 e9e1cc
+# selection / inactive borders
+1f3a31 d9cfb6
+2a3a33 cfc4a8
+4a5a52 b9b09a
+6c6a55 a49a82
+# text: dim, normal, bright (ink)
+8f8a6e 3d382e
+d4cba8 1a1713
+efe8cc 0a0805
+# accent (teal) and its brights
+6f9f8b 1b5a54
+8fc0aa 124641
+# cyan / blue
+7fb09a 1f5f5a
+9fd0ba 174e4a
+5f8a9a 24475e
+7aa8b8 1b3a4e
+# magenta
+8f7a9a 553a62
+aa94b5 442d50
+# danger
+b5523b 6e1f1f
+d06a50 541515
+# warning (rust)
+c9b97a 7a3510
+e0d08f 5e280a
+
+wallpaper solid #f1ead8

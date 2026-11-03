@@ -1,0 +1,35 @@
+# TIDEWORK: deep harbour water, sea glass, rust on iron.
+# Format: <labyrinth hex> <new hex>. Alpha suffixes are preserved.
+
+# backgrounds
+060b09 070d13
+0b1411 0a1118
+0d1814 111b24
+# selection / inactive borders
+1f3a31 1a2c38
+2a3a33 223442
+4a5a52 2c3a45
+6c6a55 4a5d6a
+# text: dim, normal, bright
+8f8a6e 7f9396
+d4cba8 cdd8d6
+efe8cc eef5f3
+# accent (sea glass) and its brights
+6f9f8b 4fb3a9
+8fc0aa 7ad0c6
+# cyan / blue
+7fb09a 5fa8b8
+9fd0ba 88c4d0
+5f8a9a 4f7fa0
+7aa8b8 7aa2c0
+# magenta
+8f7a9a 8a7fa0
+aa94b5 a899bd
+# danger (rust)
+b5523b b5524a
+d06a50 cc6a5e
+# warning
+c9b97a c98a5a
+e0d08f dfa478
+
+wallpaper solid #0a1118

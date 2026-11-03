@@ -1,0 +1,27 @@
+# SPECTER: ink violet, pale lilac, candle yellow.
+# Format: <labyrinth hex> <new hex>. Alpha suffixes are preserved.
+
+060b09 08060d
+0b1411 0d0b14
+0d1814 15121e
+1f3a31 261f38
+2a3a33 30284a
+4a5a52 463c64
+6c6a55 6a5f8a
+8f8a6e 8f88a8
+d4cba8 d6d0e4
+efe8cc f2eefa
+6f9f8b 9a7fd6
+8fc0aa b79ff0
+7fb09a 7fa6d6
+9fd0ba a0c2ee
+5f8a9a 5f7fc0
+7aa8b8 7f9ae0
+8f7a9a c06aa8
+aa94b5 da8cc4
+b5523b d6475a
+d06a50 ef6b7a
+c9b97a e0c068
+e0d08f f2d98a
+
+wallpaper solid #0d0b14

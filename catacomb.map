@@ -1,0 +1,35 @@
+# CATACOMB: mossy stone, dry bone, tarnished brass.
+# Format: <labyrinth hex> <new hex>. Alpha suffixes are preserved.
+
+# backgrounds
+060b09 080b09
+0b1411 0e1210
+0d1814 141a16
+# selection / inactive borders
+1f3a31 232d25
+2a3a33 2c372e
+4a5a52 3a4339
+6c6a55 56604f
+# text: dim, normal, bright
+8f8a6e 948f78
+d4cba8 d8d2bf
+efe8cc f0ebd8
+# accent (moss) and its brights
+6f9f8b 6f8f6a
+8fc0aa 8fb08a
+# cyan / blue
+7fb09a 7fa393
+9fd0ba a0c2b2
+5f8a9a 5f7f86
+7aa8b8 7f9ea6
+# magenta
+8f7a9a 8a7a86
+aa94b5 a8949f
+# danger
+b5523b a8553a
+d06a50 c4704f
+# warning (brass)
+c9b97a b8a35c
+e0d08f d0be78
+
+wallpaper solid #0e1210
