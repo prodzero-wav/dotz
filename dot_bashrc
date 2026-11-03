@@ -1,4 +1,3 @@
-# shellcheck shell=bash
 # ~/.bashrc
 #
 
@@ -8,11 +7,12 @@
 eval "$(starship init bash)"
 
 # Basic Aliases & Functions
-alias ls='lsd'
+alias ls='lsd -la'
 alias grep='grep --color=auto'
 alias clr='clear'
 alias x='exit'
 alias shutdown='sudo shutdown'
+alias cd='z'
 
 fuckyou()
 {
@@ -31,7 +31,6 @@ goodbye()
 {
 	echo "Goodbye for now, $USER!"
 	sleep 3
-	# shellcheck disable=SC2033  # alias is not expanded in argument position
 	sudo shutdown now
 }
 
@@ -56,7 +55,7 @@ y() {
     tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
     command yazi "$@" --cwd-file="$tmp"
     IFS= read -r -d '' cwd < "$tmp"
-    if [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && [ -d "$cwd" ]; then builtin cd -- "$cwd" || true; fi
+    [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
     rm -f -- "$tmp"
 }
 
@@ -80,3 +79,5 @@ export VISUAL="nano"
 
 # LABYRINTH-PROMPT
 [ -f "$HOME/.config/labyrinth/prompt.bash" ] && source "$HOME/.config/labyrinth/prompt.bash"
+export EDITOR=nano
+export PATH="$HOME/.local/bin:$PATH"

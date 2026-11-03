@@ -1,0 +1,27 @@
+# VERDIGRIS: oxidised copper greens, deep pine.
+# Format: <labyrinth hex> <new hex>. Alpha suffixes are preserved.
+
+060b09 040a09
+0b1411 07100f
+0d1814 0e1a18
+1f3a31 15302b
+2a3a33 1d3d37
+4a5a52 2f5750
+6c6a55 4a7a70
+8f8a6e 7a9d94
+d4cba8 c8e0d6
+efe8cc e8f6ef
+6f9f8b 3fbf9f
+8fc0aa 6fdcc0
+7fb09a 4fa8a0
+9fd0ba 7cc8c0
+5f8a9a 3f8a9a
+7aa8b8 62a8b8
+8f7a9a 8a8a9a
+aa94b5 a8a8b8
+b5523b c0603a
+d06a50 d88458
+c9b97a c8a85a
+e0d08f e0c47a
+
+wallpaper solid #07100f

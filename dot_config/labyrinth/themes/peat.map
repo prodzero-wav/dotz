@@ -1,0 +1,27 @@
+# PEAT: bog brown, heather, lamp amber.
+# Format: <labyrinth hex> <new hex>. Alpha suffixes are preserved.
+
+060b09 0b0907
+0b1411 120e0a
+0d1814 1b1510
+1f3a31 2c2218
+2a3a33 3a2d1f
+4a5a52 54422e
+6c6a55 76603f
+8f8a6e 9a8a6c
+d4cba8 d8c8a4
+efe8cc f2e6c8
+6f9f8b d08a3a
+8fc0aa e8a85a
+7fb09a 9a8a5a
+9fd0ba b8a878
+5f8a9a 7a7f70
+7aa8b8 98a088
+8f7a9a 9a6f8a
+aa94b5 b88aa6
+b5523b a8472f
+d06a50 c86644
+c9b97a e0a84a
+e0d08f f2c46e
+
+wallpaper solid #120e0a

@@ -1,0 +1,35 @@
+# ASHFALL: cold ash, burnt orange, ember gold.
+# Format: <labyrinth hex> <new hex>. Alpha suffixes are preserved.
+
+# backgrounds
+060b09 0a0808
+0b1411 121010
+0d1814 1a1615
+# selection / inactive borders
+1f3a31 2e2624
+2a3a33 3d3532
+4a5a52 574a45
+6c6a55 746660
+# text: dim, normal, bright
+8f8a6e 968b82
+d4cba8 cfc6bc
+efe8cc efe6dc
+# accent (burnt orange) and its brights
+6f9f8b d2693a
+8fc0aa e8864f
+# cyan / blue
+7fb09a c98f62
+9fd0ba deaa80
+5f8a9a 8a7f78
+7aa8b8 a09690
+# magenta
+8f7a9a a8605a
+aa94b5 c47f78
+# danger
+b5523b a63d3d
+d06a50 c95a52
+# warning (gold)
+c9b97a e0b25a
+e0d08f f0cc82
+
+wallpaper solid #121010

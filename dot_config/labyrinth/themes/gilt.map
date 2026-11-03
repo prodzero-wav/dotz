@@ -1,0 +1,27 @@
+# GILT: black lacquer, old gold, bone.
+# Format: <labyrinth hex> <new hex>. Alpha suffixes are preserved.
+
+060b09 050504
+0b1411 0a0907
+0d1814 14110d
+1f3a31 2a2418
+2a3a33 372f20
+4a5a52 524728
+6c6a55 7a6a38
+8f8a6e 998d6a
+d4cba8 e2d6b0
+efe8cc f6edd0
+6f9f8b d4a93a
+8fc0aa efc65a
+7fb09a b89a4a
+9fd0ba d4b86a
+5f8a9a 8a7a58
+7aa8b8 a89874
+8f7a9a 9a6a58
+aa94b5 b88470
+b5523b b0412e
+d06a50 d05f48
+c9b97a e8c050
+e0d08f f8dc80
+
+wallpaper solid #0a0907
